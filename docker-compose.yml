@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  mysql-db:
+    image: mysql:8.0
+    container_name: cyfl_mysql_container
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'CYFL'
+      MYSQL_USER: 'league_user'
+      MYSQL_PASSWORD: 'league_password'
+      MYSQL_ROOT_PASSWORD: 'root_password'
+    ports:
+      - '3306:3306'
+    volumes:
+      - cyfl_db_data:/var/lib/mysql
+
+volumes:
+  cyfl_db_data:
