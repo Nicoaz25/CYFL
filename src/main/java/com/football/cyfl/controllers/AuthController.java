@@ -21,8 +21,13 @@ public class AuthController {
     private UserService userService;
 
     @GetMapping("/")
-    public String paginaInicio() {
-        return "index";
+    public String paginaInicio(Authentication auth) {
+        // Si el usuario ya está logueado, lo mandamos directo a su panel
+        if (auth != null && auth.isAuthenticated() && !auth.getPrincipal().equals("anonymousUser")) {
+            return "redirect:/home";
+        }
+        // Si es un visitante nuevo, le enseñamos el index con los botones
+        return "index"; 
     }
 
     @GetMapping("/login")

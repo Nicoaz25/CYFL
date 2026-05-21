@@ -3,6 +3,7 @@ package com.football.cyfl.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -15,19 +16,23 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    // 🔥 NUEVO: Esto le quita el candado por completo a la carpeta static y sus subcarpetas
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().requestMatchers("/css/**", "/js/**", "/images/**", "/static/**");
+    }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            // 1. Apagamos el CSRF temporalmente para que tus formularios POST funcionen sin bloqueos (Adiós 403)
             .csrf(csrf -> csrf.disable()) 
             
-            // 2. Rutas públicas y privadas
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/registro", "/login", "/css/**", "/js/**").permitAll()
+                // Dejamos solo las rutas de páginas web aquí
+                .requestMatchers("/", "/**", "/registro", "/login").permitAll()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
             )
-            // 3. Dejamos que Spring maneje el login automáticamente (Él crea la sesión y redirige al home)
             .formLogin(form -> form
                 .loginPage("/login")
                 .defaultSuccessUrl("/home", true)
