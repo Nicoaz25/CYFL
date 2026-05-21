@@ -41,3 +41,19 @@
     backdrop-filter: blur(5px);
     border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
+
+.card-crear {
+    border: 2px dashed #198754;
+    background-color: #f0fdf4;
+}
+
+.card-liga {
+    border: none;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.card-liga:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
