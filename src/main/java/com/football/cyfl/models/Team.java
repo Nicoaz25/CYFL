@@ -35,6 +35,7 @@ public class Team {
     // Relación: Un equipo tiene muchos Jugadores (Players)
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
     private List<Player> players;
+    private String logo;
 
     // ==========================================
     // CONSTRUCTORES
