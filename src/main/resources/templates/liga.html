@@ -37,7 +37,9 @@
                 </li>
 
                 <li>
-                    <a href="#"><i class="fa-solid fa-user-plus"></i> Crear Jugador</a>
+                    <a th:href="@{/liga/{id}/crearJugador(id=${liga.id})}">
+                        <i class="fa-solid fa-user-plus"></i> Crear Jugador
+                    </a>
                 </li>
                 <li>
                     <a href="#"><i class="fa-solid fa-calendar-plus"></i> Generar Jornada</a>
@@ -87,19 +89,47 @@
 
             <div class="p-4">
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h3 class="fw-bold m-0"><i class="fa-solid fa-users"></i> Equipos Inscritos</h3>
-                    <span class="badge bg-success fs-6">0 Equipos</span>
+                    <h3 class="fw-bold m-0"><i class="fa-solid fa-list-ul me-2 text-success"></i> Equipos Inscritos</h3>
+                    <span class="badge bg-success fs-6" th:text="${#lists.size(equipos)} + ' Equipos'">0 Equipos</span>
                 </div>
 
-                <div class="row g-4">
+                <div th:if="${#lists.isEmpty(equipos)}"
+                    class="alert alert-warning border-0 shadow-sm rounded-3 py-4 text-center">
+                    <i class="fa-solid fa-circle-exclamation fs-3 text-warning mb-2 d-block"></i>
+                    <h5 class="fw-bold">Aún no hay equipos en esta liga</h5>
+                    <p class="text-muted mb-0">Utiliza el botón "Crear Equipo" del menú lateral izquierdo para añadir el
+                        primer participante a la competición.</p>
+                </div>
 
-                    <div class="col-12">
-                        <div class="alert alert-warning border-0 shadow-sm rounded-3 py-4 text-center">
-                            <i class="fa-solid fa-circle-exclamation fs-3 text-warning mb-2 d-block"></i>
-                            <h5 class="fw-bold">Aún no hay equipos en esta liga</h5>
-                            <p class="text-muted mb-0">Utiliza el botón "Crear Equipo" del menú lateral izquierdo para
-                                añadir el primer participante a la competición.</p>
+                <div th:unless="${#lists.isEmpty(equipos)}" class="d-flex flex-column gap-3">
+
+                    <div th:each="equipo : ${equipos}"
+                        class="d-flex align-items-center justify-content-between p-3 bg-white shadow-sm border-0"
+                        style="border-radius: 12px;">
+
+                        <div class="d-flex align-items-center gap-4">
+
+                            <div class="d-flex align-items-center justify-content-center bg-light"
+                                style="width: 60px; height: 60px; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden;">
+                                <img th:src="@{'/uploads/' + ${equipo.logo}}" alt="Escudo"
+                                    style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+
+                            <div>
+                                <h5 class="fw-bold text-dark m-0 mb-1" th:text="${equipo.name}">Nombre del Club</h5>
+                                <span class="text-muted small"><i class="fa-solid fa-location-dot text-danger me-1"></i>
+                                    <span th:text="${equipo.stadium}">Estadio</span></span>
+                            </div>
                         </div>
+
+                        <div>
+                            <a th:href="@{/liga/{leagueId}/equipo/{teamId}(leagueId=${liga.id}, teamId=${equipo.id})}"
+                                class="btn btn-outline-success btn-sm px-4 fw-bold shadow-sm"
+                                style="border-radius: 8px;">
+                                <i class="fa-solid fa-eye me-1"></i> Ver equipo
+                            </a>
+                        </div>
+
                     </div>
 
                 </div>

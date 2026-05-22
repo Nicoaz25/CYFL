@@ -1,151 +1,66 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${liga.name} + ' - Inscribir Equipo'">Inscribir Equipo - CYFL</title>
+    <title th:text="${liga.name} + ' - Crear Equipo'">Crear Equipo - CYFL</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" th:href="@{/css/liga.css}">
     <style>
-        /* Desactivamos el scroll trasero mientras el formulario esté al frente */
-        body {
-            overflow: hidden;
-        }
-
-        /* Capa oscura que genera el efecto de cristal y cubre la liga por detrás */
+        body { overflow: hidden; }
         .glass-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(15, 23, 42, 0.6); /* Tono oscuro slate */
-            backdrop-filter: blur(5px); /* Difumina el fondo de la liga */
-            z-index: 9999; /* Por encima de todo */
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(5px); z-index: 9999;
         }
-
-        /* La caja del formulario emergente */
         .popup-card {
-            background: white;
-            border-radius: 16px;
-            width: 100%;
-            max-width: 500px;
+            background: white; border-radius: 16px; width: 100%; max-width: 500px;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
             animation: emerge 0.25s cubic-bezier(0.16, 1, 0.3, 1);
         }
-
-        @keyframes emerge {
-            from { transform: scale(0.92); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
+        @keyframes emerge { from { transform: scale(0.92); opacity: 0; } to { transform: scale(1); opacity: 1; } }
     </style>
 </head>
-
 <body>
-
-    <div class="dashboard-container" style="user-select: none; pointer-events: none;">
-
+    <div class="dashboard-container" style="user-select: none; pointer-events: none; filter: blur(2px);">
         <aside class="sidebar">
-            <div class="sidebar-header">
-                <h4>⚽ CYFL Panel</h4>
-            </div>
-            <ul class="sidebar-menu">
-                <li><a href="#" class="back-link mb-3"><i class="fa-solid fa-arrow-left"></i> Volver a Mis Ligas</a></li>
-                <hr class="border-secondary mx-3">
-                <li><a href="#" class="active"><i class="fa-solid fa-house"></i> Resumen General</a></li>
-                <li class="mt-3 px-3 pb-2 text-uppercase text-secondary small fw-bold">Gestión</li>
-                <li><a href="#"><i class="fa-solid fa-shield-halved"></i> Crear Equipo</a></li>
-                <li><a href="#"><i class="fa-solid fa-user-plus"></i> Crear Jugador</a></li>
-                <li><a href="#"><i class="fa-solid fa-calendar-plus"></i> Generar Jornada</a></li>
-            </ul>
+            <div class="sidebar-header"><h4>⚽ CYFL Panel</h4></div>
+            <ul class="sidebar-menu"><li><a href="#" class="active"><i class="fa-solid fa-house"></i> Resumen General</a></li></ul>
         </aside>
-
-        <main class="main-content">
-
-            <header class="topbar">
-                <div class="topbar-actions">
-                    <a href="#" class="btn btn-outline-success fw-bold"><i class="fa-solid fa-table-list"></i> Clasificación Equipos</a>
-                    <a href="#" class="btn btn-outline-primary fw-bold"><i class="fa-solid fa-medal"></i> Clasificación Jugadores</a>
-                </div>
-                <div class="d-flex align-items-center gap-3">
-                    <span class="text-muted fw-bold">Modo Administrador</span>
-                </div>
-            </header>
-
-            <div class="league-banner">
-                <div class="banner-content-wrapper">
-                    <img th:src="@{'/uploads/' + ${liga.logo}}" alt="Logo de la liga" class="banner-league-logo">
-                    <div class="banner-text">
-                        <span class="badge bg-success mb-2 text-uppercase fw-bold" style="letter-spacing: 1px;">Competición Oficial</span>
-                        <h1 class="fw-bold mb-1" th:text="${liga.name}">Nombre de la Liga</h1>
-                        <p class="mb-0 text-white-50 small" th:text="${liga.description}">Descripción de la competición</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="p-4">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h3 class="fw-bold m-0"><i class="fa-solid fa-users"></i> Equipos Inscritos</h3>
-                    <span class="badge bg-success fs-6">0 Equipos</span>
-                </div>
-                <div class="row g-4">
-                    <div class="col-12">
-                        <div class="alert alert-warning border-0 py-4 text-center">
-                            <i class="fa-solid fa-circle-exclamation fs-3 text-warning mb-2 d-block"></i>
-                            <h5 class="fw-bold">Aún no hay equipos en esta liga</h5>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </main>
     </div>
 
-
     <div class="glass-overlay d-flex align-items-center justify-content-center">
-        
         <div class="popup-card p-5">
             <div class="text-center mb-4">
                 <div class="bg-success text-white d-inline-block p-3 rounded-circle mb-2 shadow-sm">
                     <i class="fa-solid fa-shield-halved fs-3"></i>
                 </div>
-                <h3 class="fw-bold m-0" style="color: #1e293b;">Inscribir Equipo</h3>
-                <p class="text-muted small">Añade un nuevo club a la liga <span class="fw-bold text-success" th:text="${liga.name}"></span></p>
+                <h3 class="fw-bold m-0" style="color: #1e293b;">Crear Nuevo Equipo</h3>
+                <p class="text-muted small">Inscribe un club en <span class="fw-bold text-success" th:text="${liga.name}"></span></p>
             </div>
 
-            <form th:action="@{/liga/{leagueId}/crearEquipo(leagueId=${leagueId})}" th:object="${team}" method="POST" enctype="multipart/form-data">
-                
+            <form th:action="@{/liga/{leagueId}/crearEquipo(leagueId=${liga.id})}" method="POST" enctype="multipart/form-data">
                 <div class="mb-3">
-                    <label class="form-label fw-bold small text-secondary">Nombre del Club</label>
-                    <input type="text" th:field="*{name}" class="form-control form-control-lg"  required style="border-radius: 10px; font-size: 16px;">
+                    <label for="name" class="form-label">Nombre del Equipo</label>
+                    <input type="text" class="form-control" id="name" name="name" required placeholder="Ej: Real Madrid">
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label fw-bold small text-secondary">Estadio / Campo de juego</label>
-                    <input type="text" th:field="*{stadium}" class="form-control form-control-lg"  required style="border-radius: 10px; font-size: 16px;">
+                    <label for="stadium" class="form-label">Estadio</label>
+                    <input type="text" class="form-control" id="stadium" name="stadium" required placeholder="Ej: Santiago Bernabéu">
                 </div>
 
-                <div class="mb-4">
-                    <label class="form-label fw-bold small text-secondary">Escudo / Logo del Equipo</label>
-                    <input type="file" name="file" class="form-control" accept="image/*" style="border-radius: 8px;">
-                    <div class="form-text small">Se recomienda una foto cuadrada (PNG o JPG).</div>
+                <div class="mb-3">
+                    <label for="file" class="form-label">Escudo del Equipo (Opcional)</label>
+                    <input type="file" class="form-control" id="file" name="file" accept="image/*">
                 </div>
 
-                <div class="d-grid gap-2">
-                    <button type="submit" class="btn btn-success btn-lg fw-bold shadow-sm py-2" style="border-radius: 10px; font-size: 16px;">
-                        <i class="fa-solid fa-plus"></i> Crear
-                    </button>
-                    <a th:href="@{/liga/{id}(id=${leagueId})}" class="btn btn-light fw-bold text-muted py-2" style="border-radius: 10px; border: 1px solid #e2e8f0; font-size: 16px; text-decoration: none; text-align: center;">
-                        Cancelar
-                    </a>
+                <div class="d-flex justify-content-between mt-4">
+                    <a th:href="@{/liga/{id}(id=${liga.id})}" class="btn btn-secondary">Cancelar</a>
+                    <button type="submit" class="btn btn-success">Guardar Equipo</button>
                 </div>
             </form>
         </div>
-
     </div>
-
 </body>
-
 </html>

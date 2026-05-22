@@ -218,3 +218,9 @@ body {
     color: #94a3b8;
     border: 2px dashed #cbd5e1;
 }
+
+.d-flex.align-items-center.justify-content-between.p-3.bg-white:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05) !important;
+    border-left: 4px solid #198754 !important; /* Le añade una línea verde al hacer hover */
+}
