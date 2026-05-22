@@ -1,9 +1,121 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
-    <title>Prueba de Fuego</title>
+    <title>Crear Jugador</title>
+
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f3f3f3;
+            padding: 40px;
+        }
+
+        .contenedor {
+            width: 500px;
+            margin: auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-top: 5px;
+        }
+
+        button {
+            margin-top: 25px;
+            padding: 12px;
+            border: none;
+            background-color: green;
+            color: white;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: darkgreen;
+        }
+    </style>
+
 </head>
+
 <body>
+
+    <div class="contenedor">
+
+        <h1>Crear Jugador</h1>
+
+        <form th:action="@{/liga/{id}/crearJugador(id=${liga.id})}" method="post" enctype="multipart/form-data">
+
+            <!-- NOMBRE -->
+            <label>Nombre</label>
+            <input type="text" name="name" required>
+
+            <!-- EDAD -->
+            <label>Edad</label>
+            <input type="number" name="age" min="1" max="60" required>
+
+            <!-- DORSAL -->
+            <label>Dorsal</label>
+            <input type="number" name="dorsal" min="1" max="99" required>
+
+            <!-- POSICIÓN -->
+            <label>Posición</label>
+
+            <select name="position" required>
+                <option value="">Selecciona posición</option>
+                <option value="Portero">Portero</option>
+                <option value="Defensa">Defensa</option>
+                <option value="Centrocampista">Centrocampista</option>
+                <option value="Delantero">Delantero</option>
+            </select>
+
+            <!-- EQUIPO -->
+            <label>Equipo</label>
+
+            <select name="teamId" required>
+
+                <option value="">Selecciona un equipo</option>
+
+                <option th:each="equipo : ${equipos}" th:value="${equipo.id}" th:text="${equipo.name}">
+                </option>
+
+            </select>
+
+            <!-- FOTO -->
+            <label>Foto del jugador</label>
+            <input type="file" name="file" accept="image/*">
+
+            <!-- BOTÓN -->
+            <button type="submit">Crear jugador</button>
+
+        </form>
+
+    </div>
+
 </body>
+
 </html>

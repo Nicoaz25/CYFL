@@ -76,7 +76,8 @@ public class LigaController {
             return "redirect:/home?error=no_tienes_permiso";
         }
 
-        // Buscamos pasando la entidad laLiga completa tal como está configurada en la relación
+        // Buscamos pasando la entidad laLiga completa tal como está configurada en la
+        // relación
         List<Team> equiposDeLaLiga = teamRepository.findByLeagueId(laLiga.getId());
 
         model.addAttribute("liga", laLiga);
@@ -188,23 +189,15 @@ public class LigaController {
     }
 
     @GetMapping("/liga/{leagueId}/crearJugador")
-    public String mostrarFormularioJugador(@PathVariable Long leagueId, Model model, Principal principal) {
-        if (principal == null) {
-            return "redirect:/login";
-        }
+    public String mostrarFormularioJugador(@PathVariable Long leagueId, Model model) {
 
-        League laLiga = leagueRepository.findById(leagueId)
+        League liga = leagueRepository.findById(leagueId)
                 .orElseThrow(() -> new RuntimeException("Liga no encontrada"));
 
-        if (!laLiga.getCreador().getEmail().equals(principal.getName())) {
-            return "redirect:/home?error=no_tienes_permiso";
-        }
+        List<Team> equipos = teamRepository.findByLeagueId(leagueId);
 
-        List<Team> equipos = teamRepository.findByLeagueId(laLiga.getId());
-
-        model.addAttribute("liga", laLiga);
+        model.addAttribute("liga", liga);
         model.addAttribute("equipos", equipos);
-        model.addAttribute("leagueId", leagueId);
 
         return "crearJugador";
     }
@@ -215,9 +208,12 @@ public class LigaController {
             @RequestParam("teamId") Long teamId,
             @RequestParam("position") String position,
             @RequestParam("dorsal") int dorsal,
+            @RequestParam("age") int age,
             @RequestParam("file") MultipartFile file,
             Principal principal) {
+
         try {
+
             League laLiga = leagueRepository.findById(leagueId)
                     .orElseThrow(() -> new RuntimeException("Liga no encontrada"));
 
@@ -229,21 +225,30 @@ public class LigaController {
                     .orElseThrow(() -> new RuntimeException("Equipo no encontrado"));
 
             Player nuevoJugador = new Player();
+
             nuevoJugador.setName(name);
             nuevoJugador.setTeam(elEquipo);
             nuevoJugador.setPosition(position);
             nuevoJugador.setDorsal(dorsal);
+            nuevoJugador.setAge(age);
 
             if (!file.isEmpty()) {
+
                 String carpetaFotos = "src/main/resources/static/uploads/";
                 Path rutaDirectorio = Paths.get(carpetaFotos);
+
                 if (!Files.exists(rutaDirectorio)) {
                     Files.createDirectories(rutaDirectorio);
                 }
+
                 String nombreFoto = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+
                 Path rutaCompleta = Paths.get(carpetaFotos + nombreFoto);
+
                 Files.write(rutaCompleta, file.getBytes());
+
                 nuevoJugador.setLogo(nombreFoto);
+
             } else {
                 nuevoJugador.setLogo("default.png");
             }
