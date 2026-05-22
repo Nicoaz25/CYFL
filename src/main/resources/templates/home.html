@@ -52,33 +52,50 @@
             </div>
         </div>
 
+
         <div class="row g-4">
 
             <div class="col-md-4" th:each="liga : ${ligas}">
-                <div class="card card-liga h-100 shadow-sm overflow-hidden">
+                <div class="card card-liga h-100 shadow-sm border-0 overflow-hidden" style="border-radius: 15px;">
 
-                    <div class="text-center pt-4">
-                        <img th:src="@{'/uploads/' + ${liga.logo}}" alt="Logo de la liga"
-                            class="rounded-circle shadow-sm"
-                            style="width: 100px; height: 100px; object-fit: cover; border: 3px solid #198754;">
+                    <div style="height: 180px; overflow: hidden; background-color: #e9ecef;">
+                        <img th:src="@{'/uploads/' + ${liga.logo}}" class="card-img-top" alt="Banner de la liga"
+                            style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
-                    <div class="card-body text-center">
-                        <h5 class="fw-bold mb-1" th:text="${liga.name}">Nombre de la Liga</h5>
-                        <p class="text-muted small mb-3" th:text="${liga.description}">Descripción breve</p>
 
-                        <a href="#" class="btn btn-outline-success w-100">Gestionar Liga</a>
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h5 class="fw-bold m-0" th:text="${liga.name}" style="color: #1a1a1a;">Nombre de la Liga
+                            </h5>
+                            <span
+                                class="badge bg-success-subtle text-success border border-success-subtle">Activa</span>
+                        </div>
+
+                        <p class="text-muted small mb-4" th:text="${liga.description}"
+                            style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                            Aquí va la descripción de la liga que el gestor haya escrito en el formulario.
+                        </p>
+
+                        <div class="d-grid">
+                            <a href="#" class="btn btn-success fw-bold py-2 shadow-sm" style="border-radius: 8px;">
+                                Gestionar Competición
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-12" th:if="${#lists.isEmpty(ligas)}">
-                <div class="card card-crear d-flex align-items-center justify-content-center">
-                    <p class="text-success fw-bold m-0">Aún no has creado ninguna liga. ¡Haz clic en el botón de arriba
-                        para empezar!</p>
+            <div class="col-12" th:if="${#lists.isEmpty(ligas)}">
+                <div class="card card-crear d-flex align-items-center justify-content-center p-5 text-center">
+                    <div class="mb-3 fs-1">📂</div>
+                    <h4 class="text-success fw-bold">No tienes ligas creadas</h4>
+                    <p class="text-muted">Haz clic en el botón de arriba a la derecha para configurar tu primer
+                        torneo.</p>
                 </div>
             </div>
 
         </div>
+
     </div>
 
 </body>
