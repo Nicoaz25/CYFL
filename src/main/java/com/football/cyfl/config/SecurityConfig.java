@@ -29,7 +29,7 @@ public class SecurityConfig {
             
             .authorizeHttpRequests(auth -> auth
                 // Dejamos solo las rutas de páginas web aquí
-                .requestMatchers("/", "/**", "/registro", "/login").permitAll()
+                .requestMatchers("/", "/**", "/registro", "/login", "/crear-liga").permitAll()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
             )

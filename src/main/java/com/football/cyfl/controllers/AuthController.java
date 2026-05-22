@@ -1,18 +1,15 @@
 package com.football.cyfl.controllers;
 
-import com.football.cyfl.models.User;
-import com.football.cyfl.services.UserService;
-import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.security.core.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.football.cyfl.models.User;
+import com.football.cyfl.services.UserService;
 
 @Controller
 public class AuthController {
@@ -47,6 +44,15 @@ public class AuthController {
         }
         return "registro";
     }
+
+    
+    @GetMapping("/nueva-liga")
+    public String mostrarFormularioLiga(Model model) {
+        // Podrías pasar datos al modelo si fuera necesario
+        return "crear-liga"; 
+    }
+
+    
 
     @PostMapping("/registro")
     public String procesarRegistro(@RequestParam("nombre") String nombre,
