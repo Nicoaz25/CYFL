@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -146,23 +145,25 @@ public class LigaController {
         return "crearEquipo";
     }
 
-    @PostMapping("/liga/{leagueId}/crearEquipo")
-    public String guardarEquipo(@PathVariable Long leagueId,
-            @ModelAttribute Team team,
-            @RequestParam("file") MultipartFile file,
-            Principal principal) {
+    @PostMapping("/liga/{ligaId}/crearEquipo")
+    public String guardarEquipo(@PathVariable Long ligaId,
+            @RequestParam String name,
+            @RequestParam String stadium,
+            @RequestParam("file") MultipartFile file) {
+
+        Team equipo = new Team();
+        equipo.setName(name);
+        equipo.setStadium(stadium);
+
+        // Asociamos la liga
+        League liga = leagueRepository.findById(ligaId).orElseThrow();
+        equipo.setLeague(liga);
+
+        // === LÓGICA OPTIMIZADA Y ROBUSTA PARA GUARDAR LA IMAGEN ===
+
         try {
-            League laLiga = leagueRepository.findById(leagueId)
-                    .orElseThrow(() -> new RuntimeException("Liga no encontrada"));
-
-            String emailUsuarioLogueado = principal.getName();
-            if (!laLiga.getCreador().getEmail().equals(emailUsuarioLogueado)) {
-                return "redirect:/home?error=no_tienes_permiso";
-            }
-
-            team.setLeague(laLiga);
-
             if (!file.isEmpty()) {
+
                 String carpetaFotos = "src/main/resources/static/uploads/";
                 Path rutaDirectorio = Paths.get(carpetaFotos);
 
@@ -171,21 +172,26 @@ public class LigaController {
                 }
 
                 String nombreFoto = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+
                 Path rutaCompleta = Paths.get(carpetaFotos + nombreFoto);
+
                 Files.write(rutaCompleta, file.getBytes());
 
-                team.setLogo(nombreFoto);
+                equipo.setLogo(nombreFoto);
+
             } else {
-                team.setLogo("default.png");
+                equipo.setLogo("default.png");
             }
 
-            teamRepository.save(team);
-
-        } catch (Exception e) {
+        } catch (IOException e) {
+            System.out.println("❌ Error crítico al transferir la imagen: " + e.getMessage());
             e.printStackTrace();
+            equipo.setLogo("default.png");
         }
 
-        return "redirect:/liga/" + leagueId;
+        teamRepository.save(equipo);
+
+        return "redirect:/liga/" + ligaId;
     }
 
     @GetMapping("/liga/{leagueId}/crearJugador")
@@ -271,12 +277,16 @@ public class LigaController {
             return "redirect:/login";
         }
 
-        Team equipo = teamRepository.findById(teamId)
-                .orElseThrow(() -> new RuntimeException("Equipo no encontrado"));
+        Team equipo = teamRepository.findById(teamId).orElseThrow();
 
+        // 2. Buscamos solo los jugadores de este equipo
+        List<Player> jugadores = playerRepository.findByTeamId(teamId);
+
+        // 3. Enviamos todo al modelo del nuevo HTML
+        model.addAttribute("ligaId", leagueId);
         model.addAttribute("equipo", equipo);
-        model.addAttribute("leagueId", leagueId);
+        model.addAttribute("jugadores", jugadores);
 
-        return "detalleEquipo";
+        return "verEquipo";
     }
 }

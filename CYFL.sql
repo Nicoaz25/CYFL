@@ -75,5 +75,3 @@ CREATE TABLE players (
     team_id INT NOT NULL,              
     FOREIGN KEY (team_id) REFERENCES teams(id) ON DELETE CASCADE
 );
-
-ALTER TABLE players ADD COLUMN logo VARCHAR(255) NULL;

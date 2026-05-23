@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,24 +9,82 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" th:href="@{/css/liga.css}">
     <style>
-        body { overflow: hidden; }
-        .glass-overlay {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(5px); z-index: 9999;
+        body {
+            overflow: hidden;
         }
+
+        .glass-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(5px);
+            z-index: 9999;
+        }
+
         .popup-card {
-            background: white; border-radius: 16px; width: 100%; max-width: 500px;
+            background: white;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 500px;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
             animation: emerge 0.25s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        @keyframes emerge { from { transform: scale(0.92); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        @keyframes emerge {
+            from {
+                transform: scale(0.92);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
     </style>
 </head>
+
 <body>
     <div class="dashboard-container" style="user-select: none; pointer-events: none; filter: blur(2px);">
         <aside class="sidebar">
-            <div class="sidebar-header"><h4>⚽ CYFL Panel</h4></div>
-            <ul class="sidebar-menu"><li><a href="#" class="active"><i class="fa-solid fa-house"></i> Resumen General</a></li></ul>
+            <div class="sidebar-header">
+                <h4>⚽ CYFL Panel</h4>
+            </div>
+            <ul class="sidebar-menu">
+                <li>
+                    <a href="/home" class="back-link mb-3"><i class="fa-solid fa-arrow-left"></i> Volver a Mis Ligas</a>
+                </li>
+                <hr class="border-secondary mx-3">
+
+                <li>
+                    <a href="#" class="active"><i class="fa-solid fa-house"></i> Resumen General</a>
+                </li>
+
+                <li class="mt-3 px-3 pb-2 text-uppercase text-secondary small fw-bold">Gestión</li>
+
+                <li>
+                    <a th:href="@{/liga/{id}/crearEquipo(id=${liga.id})}">
+                        <i class="fa-solid fa-shield-halved"></i> Crear Equipo
+                    </a>
+                </li>
+
+                <li>
+                    <a th:href="@{/liga/{id}/crearJugador(id=${liga.id})}">
+                        <i class="fa-solid fa-user-plus"></i> Crear Jugador
+                    </a>
+                </li>
+                <li>
+                    <a href="#"><i class="fa-solid fa-calendar-plus"></i> Generar Jornada</a>
+                </li>
+
+                <li class="mt-3 px-3 pb-2 text-uppercase text-secondary small fw-bold">Ajustes</li>
+                <li>
+                    <a href="#"><i class="fa-solid fa-gear"></i> Configuración</a>
+                </li>
+            </ul>
         </aside>
     </div>
 
@@ -36,31 +95,32 @@
                     <i class="fa-solid fa-shield-halved fs-3"></i>
                 </div>
                 <h3 class="fw-bold m-0" style="color: #1e293b;">Crear Nuevo Equipo</h3>
-                <p class="text-muted small">Inscribe un club en <span class="fw-bold text-success" th:text="${liga.name}"></span></p>
+                <p class="text-muted small">Inscribe un club en <span class="fw-bold text-success"
+                        th:text="${liga.name}"></span></p>
             </div>
 
-            <form th:action="@{/liga/{leagueId}/crearEquipo(leagueId=${liga.id})}" method="POST" enctype="multipart/form-data">
+            <form th:action="@{/liga/{ligaId}/crearEquipo(ligaId=${liga.id})}" method="POST"
+                enctype="multipart/form-data">
+
                 <div class="mb-3">
-                    <label for="name" class="form-label">Nombre del Equipo</label>
-                    <input type="text" class="form-control" id="name" name="name" required placeholder="Ej: Real Madrid">
+                    <label>Nombre del Equipo</label>
+                    <input type="text" name="name" class="form-control" required>
                 </div>
 
                 <div class="mb-3">
-                    <label for="stadium" class="form-label">Estadio</label>
-                    <input type="text" class="form-control" id="stadium" name="stadium" required placeholder="Ej: Santiago Bernabéu">
+                    <label>Estadio</label>
+                    <input type="text" name="stadium" class="form-control" required>
                 </div>
 
                 <div class="mb-3">
-                    <label for="file" class="form-label">Escudo del Equipo (Opcional)</label>
-                    <input type="file" class="form-control" id="file" name="file" accept="image/*">
+                    <label class="form-label">Foto del equipo</label>
+                    <input type="file" class="form-control" name="file" accept="image/*">
                 </div>
 
-                <div class="d-flex justify-content-between mt-4">
-                    <a th:href="@{/liga/{id}(id=${liga.id})}" class="btn btn-secondary">Cancelar</a>
-                    <button type="submit" class="btn btn-success">Guardar Equipo</button>
-                </div>
+                <button type="submit" class="btn btn-primary">Crear Equipo</button>
             </form>
         </div>
     </div>
 </body>
+
 </html>

@@ -75,7 +75,9 @@
 
             <div class="league-banner">
                 <div class="banner-content-wrapper">
-                    <img th:src="@{'/uploads/' + ${liga.logo}}" alt="Logo de la liga" class="banner-league-logo">
+                    <img th:if="${liga.logo != null and liga.logo != ''}" th:src="@{'/uploads/' + ${liga.logo}}"
+                        alt="Logo de la liga" class="banner-league-logo"
+                        onerror="this.src='https://via.placeholder.com/150';">
 
                     <div class="banner-text">
                         <span class="badge bg-success mb-2 text-uppercase fw-bold"
@@ -111,8 +113,11 @@
 
                             <div class="d-flex align-items-center justify-content-center bg-light"
                                 style="width: 60px; height: 60px; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden;">
-                                <img th:src="@{'/uploads/' + ${equipo.logo}}" alt="Escudo"
+
+                                <img th:if="${equipo.logo != null and equipo.logo != ''}"
+                                    th:src="@{'/uploads/' + ${#strings.trim(equipo.logo)}}" alt="Escudo"
                                     style="width: 100%; height: 100%; object-fit: cover;">
+
                             </div>
 
                             <div>
@@ -123,10 +128,9 @@
                         </div>
 
                         <div>
-                            <a th:href="@{/liga/{leagueId}/equipo/{teamId}(leagueId=${liga.id}, teamId=${equipo.id})}"
-                                class="btn btn-outline-success btn-sm px-4 fw-bold shadow-sm"
-                                style="border-radius: 8px;">
-                                <i class="fa-solid fa-eye me-1"></i> Ver equipo
+                            <a th:href="@{/liga/{ligaId}/equipo/{equipoId}(ligaId=${liga.id}, equipoId=${equipo.id})}"
+                                class="btn btn-sm btn-outline-primary">
+                                <i class="fa-solid fa-eye me-1"></i> Ver Equipo
                             </a>
                         </div>
 
@@ -139,7 +143,6 @@
 
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

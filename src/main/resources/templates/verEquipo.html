@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${equipo.name} + ' - Detalle del Club | CYFL'"></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/verEquipo.css}">
+</head>
+
+<body>
+
+    <div class="main-wrapper">
+
+        <header class="team-hero-banner">
+            <div class="hero-team-info">
+
+                <div class="hero-club-logo"
+                    style="background-color: white; border-radius: 50%; overflow: hidden; display: flex; justify-content: center; align-items: center;">
+
+                    <img th:if="${equipo.logo != null and equipo.logo != ''}"
+                        th:src="@{'/uploads/' + ${#strings.trim(equipo.logo)}}" alt="Escudo"
+                        style="width: 100%; height: 100%; object-fit: contain;">
+
+                </div>
+
+                <div class="hero-text">
+                    <h1 th:text="${equipo.name}">Nombre del Equipo</h1>
+                    <p class="hero-stadium">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <span th:text="'Estadio: ' + ${equipo.stadium}">Estadio del Club</span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="hero-actions">
+                <a th:href="@{/liga/{id}(id=${ligaId})}" class="btn btn-outline-light px-4 fw-bold shadow-sm">
+                    <i class="fa-solid fa-arrow-left me-2"></i> Volver a la Liga
+                </a>
+            </div>
+        </header>
+
+        <div class="card squad-card">
+            <div class="card-body p-0">
+
+                <div class="squad-title text-secondary">
+                    <h4 class="fw-bold m-0"><i class="fa-solid fa-users me-2 text-success"></i>Plantilla Oficial</h4>
+                    <span class="squad-count" th:text="${#lists.size(jugadores)} + ' Jugadores Inscriptos'">0</span>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="cyfl-table align-middle">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Dorsal</th>
+                                <th>Nombre</th>
+                                <th>Posición</th>
+                                <th>Edad</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:if="${#lists.isEmpty(jugadores)}">
+                                <td colspan="4" class="text-center text-muted py-5 fs-5">
+                                    <i class="fa-solid fa-user-slash fs-1 d-block mb-3 opacity-50"></i>
+                                    Aún no hay jugadores registrados en este equipo.
+                                </td>
+                            </tr>
+
+                            <tr th:each="jugador : ${jugadores}">
+                                <td class="col-dorsal" th:text="${jugador.dorsal}">10</td>
+
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="player-avatar"
+                                            style="overflow: hidden; padding: 0; background-color: white; border: 2px solid #e2e8f0; display: flex; justify-content: center; align-items: center;">
+
+                                            <img th:if="${jugador.logo != null and jugador.logo != ''}"
+                                                th:src="@{'/uploads/' + ${jugador.logo}}" alt="Foto Jugador"
+                                                style="width: 100%; height: 100%; object-fit: cover;"
+                                                onerror="this.src='https://via.placeholder.com/150';">
+
+                                            <i th:unless="${jugador.logo != null and jugador.logo != ''}"
+                                                class="fa-solid fa-user text-secondary"></i>
+                                        </div>
+                                        <div class="col-nombre ms-2" th:text="${jugador.name}">Lionel Messi</div>
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <span class="badge-posicion badge-pill"
+                                        th:text="${jugador.position}">Delantero</span>
+                                </td>
+
+                                <td>
+                                    <span class="badge-edad" th:text="${jugador.age} + ' años'">28 años</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
