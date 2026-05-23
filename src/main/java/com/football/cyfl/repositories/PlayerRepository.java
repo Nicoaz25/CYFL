@@ -10,4 +10,5 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
     
     // Para buscar todos los jugadores que pertenecen a un equipo concreto
     List<Player> findByTeamId(Long teamId);
+    List<Player> findByTeamLeagueId(Long leagueId);
 }

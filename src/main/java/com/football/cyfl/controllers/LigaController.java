@@ -372,4 +372,44 @@ public class LigaController {
 
         return "redirect:/liga/" + leagueId + "/jugador/" + playerId;
     }
+
+    @GetMapping("/liga/{leagueId}/clasJugadores")
+    public String clasificacionJugadores(
+            @PathVariable Long leagueId,
+            @RequestParam(defaultValue = "goles") String ordenarPor,
+            Model model) {
+
+        League liga = leagueRepository.findById(leagueId)
+                .orElseThrow();
+
+        List<Player> jugadores = playerRepository.findByTeamLeagueId(leagueId);
+
+        // ORDENACIONES
+        switch (ordenarPor) {
+
+            case "asistencias":
+                jugadores.sort((a, b) -> Integer.compare(b.getAsistencias(), a.getAsistencias()));
+                break;
+
+            case "puntos":
+                jugadores.sort((a, b) -> Integer.compare(b.getPuntos(), a.getPuntos()));
+                break;
+
+            case "partidos":
+                jugadores.sort((a, b) -> Integer.compare(b.getPartidosJugados(), a.getPartidosJugados()));
+                break;
+
+            default:
+                jugadores.sort((a, b) -> Integer.compare(b.getGoles(), a.getGoles()));
+                break;
+        }
+
+        model.addAttribute("liga", liga);
+        model.addAttribute("jugadores", jugadores);
+        model.addAttribute("ordenarPor", ordenarPor);
+
+    
+
+        return "clasJugadores";
+    }
 }

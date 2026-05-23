@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Clasificación Jugadores | CYFL</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* CSS para el banner superior y las fotos */
+        .header-banner {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: white;
+            padding: 2rem 0;
+            border-bottom: 4px solid #155e37;
+            margin-bottom: 2rem;
+        }
+        .player-avatar-small {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            overflow: hidden;
+            background-color: #e9ecef;
+            border: 1px solid #dee2e6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+
+    <div class="header-banner shadow">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div>
+                <h2 class="fw-bold mb-0"><i class="fa-solid fa-trophy text-warning me-2"></i> Ranking de Jugadores</h2>
+                <p class="text-white-50 mb-0 mt-1">Estadísticas globales de la liga</p>
+            </div>
+            
+            <a th:href="@{/liga/{id}(id=${liga.id})}" class="btn btn-outline-light fw-bold shadow-sm">
+                <i class="fa-solid fa-arrow-left me-2"></i> Volver a la Liga
+            </a>
+        </div>
+    </div>
+
+    <div class="container mb-5">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            
+            <h4 class="text-secondary m-0"><i class="fa-solid fa-filter me-2"></i>Filtro de clasificación</h4>
+
+            <form th:action="@{/liga/{leagueId}/clasJugadores(leagueId=${liga.id})}" method="get" class="m-0">
+                <select name="ordenarPor" class="form-select fw-bold shadow-sm" onchange="this.form.submit()" style="cursor: pointer; min-width: 200px;">
+                    <option value="goles" th:selected="${ordenarPor == 'goles'}">⚽ Goles</option>
+                    <option value="asistencias" th:selected="${ordenarPor == 'asistencias'}">👟 Asistencias</option>
+                    <option value="puntos" th:selected="${ordenarPor == 'puntos'}">⭐ Puntos</option>
+                    <option value="partidos" th:selected="${ordenarPor == 'partidos'}">🏃 Partidos Jugados</option>
+                </select>
+            </form>
+
+        </div>
+
+        <table class="table table-striped table-hover shadow bg-white">
+
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Jugador</th>
+                    <th>Equipo</th>
+                    <th>G</th>
+                    <th>A</th>
+                    <th>PJ</th>
+                    <th>PG</th>
+                    <th>PE</th>
+                    <th>PP</th>
+                    <th>Pts</th>
+                    <th>G/P</th>
+                    <th>A/P</th>
+                    <th>🟨</th>
+                    <th>🟥</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr th:each="jugador, stat : ${jugadores}">
+
+                    <td class="align-middle" th:text="${stat.count}"></td>
+
+                    <td class="align-middle">
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="player-avatar-small">
+                                <img th:if="${jugador.logo != null and jugador.logo != ''}"
+                                     th:src="@{'/uploads/' + ${jugador.logo}}" 
+                                     alt="Foto"
+                                     style="width: 100%; height: 100%; object-fit: cover;">
+                                <i th:unless="${jugador.logo != null and jugador.logo != ''}" 
+                                   class="fa-solid fa-user text-secondary" style="font-size: 0.9rem;"></i>
+                            </div>
+                            <span class="fw-bold" th:text="${jugador.name}"></span>
+                        </div>
+                    </td>
+
+                    <td class="align-middle" th:text="${jugador.team.name}"></td>
+                    <td class="align-middle" th:text="${jugador.goles}"></td>
+                    <td class="align-middle" th:text="${jugador.asistencias}"></td>
+                    <td class="align-middle" th:text="${jugador.partidosJugados}"></td>
+                    <td class="align-middle" th:text="${jugador.partidosGanados}"></td>
+                    <td class="align-middle" th:text="${jugador.partidosEmpatados}"></td>
+                    <td class="align-middle" th:text="${jugador.partidosPerdidos}"></td>
+                    <td class="align-middle fw-bold" th:text="${jugador.puntos}"></td>
+
+                    <td class="align-middle" th:text="${jugador.partidosJugados > 0} 
+                        ? ${#numbers.formatDecimal(jugador.goles * 1.0 / jugador.partidosJugados, 1,2)} : '0.00'">
+                    </td>
+
+                    <td class="align-middle" th:text="${jugador.partidosJugados > 0} 
+                        ? ${#numbers.formatDecimal(jugador.asistencias * 1.0 / jugador.partidosJugados, 1,2)} : '0.00'">
+                    </td>
+
+                    <td class="align-middle" th:text="${jugador.tarjetasAmarillas}"></td>
+                    <td class="align-middle" th:text="${jugador.tarjetasRojas}"></td>
+
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

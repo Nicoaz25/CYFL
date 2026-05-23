@@ -59,7 +59,8 @@
                     <a href="#" class="btn btn-outline-success fw-bold">
                         <i class="fa-solid fa-table-list"></i> Clasificación Equipos
                     </a>
-                    <a href="#" class="btn btn-outline-primary fw-bold">
+                    <a th:href="@{/liga/{leagueId}/clasJugadores(leagueId=${liga.id})}"
+                        class="btn btn-outline-primary fw-bold">
                         <i class="fa-solid fa-medal"></i> Clasificación Jugadores
                     </a>
                 </div>
