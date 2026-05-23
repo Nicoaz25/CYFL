@@ -7,7 +7,7 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <style>
         /* CSS para el banner superior y las fotos */
         .header-banner {
@@ -17,6 +17,7 @@
             border-bottom: 4px solid #155e37;
             margin-bottom: 2rem;
         }
+
         .player-avatar-small {
             width: 35px;
             height: 35px;
@@ -40,7 +41,7 @@
                 <h2 class="fw-bold mb-0"><i class="fa-solid fa-trophy text-warning me-2"></i> Ranking de Jugadores</h2>
                 <p class="text-white-50 mb-0 mt-1">Estadísticas globales de la liga</p>
             </div>
-            
+
             <a th:href="@{/liga/{id}(id=${liga.id})}" class="btn btn-outline-light fw-bold shadow-sm">
                 <i class="fa-solid fa-arrow-left me-2"></i> Volver a la Liga
             </a>
@@ -50,11 +51,12 @@
     <div class="container mb-5">
 
         <div class="d-flex justify-content-between align-items-center mb-4">
-            
+
             <h4 class="text-secondary m-0"><i class="fa-solid fa-filter me-2"></i>Filtro de clasificación</h4>
 
             <form th:action="@{/liga/{leagueId}/clasJugadores(leagueId=${liga.id})}" method="get" class="m-0">
-                <select name="ordenarPor" class="form-select fw-bold shadow-sm" onchange="this.form.submit()" style="cursor: pointer; min-width: 200px;">
+                <select name="ordenarPor" class="form-select fw-bold shadow-sm" onchange="this.form.submit()"
+                    style="cursor: pointer; min-width: 200px;">
                     <option value="goles" th:selected="${ordenarPor == 'goles'}">⚽ Goles</option>
                     <option value="asistencias" th:selected="${ordenarPor == 'asistencias'}">👟 Asistencias</option>
                     <option value="puntos" th:selected="${ordenarPor == 'puntos'}">⭐ Puntos</option>
@@ -91,17 +93,21 @@
                     <td class="align-middle" th:text="${stat.count}"></td>
 
                     <td class="align-middle">
-                        <div class="d-flex align-items-center gap-2">
+                        <a th:href="@{/liga/{ligaId}/jugador/{jugadorId}(ligaId=${liga.id}, jugadorId=${jugador.id})}"
+                            class="text-decoration-none text-dark d-flex align-items-center gap-2">
+
                             <div class="player-avatar-small">
                                 <img th:if="${jugador.logo != null and jugador.logo != ''}"
-                                     th:src="@{'/uploads/' + ${jugador.logo}}" 
-                                     alt="Foto"
-                                     style="width: 100%; height: 100%; object-fit: cover;">
-                                <i th:unless="${jugador.logo != null and jugador.logo != ''}" 
-                                   class="fa-solid fa-user text-secondary" style="font-size: 0.9rem;"></i>
+                                    th:src="@{'/uploads/' + ${jugador.logo}}" alt="Foto"
+                                    style="width: 100%; height: 100%; object-fit: cover;">
+                                <i th:unless="${jugador.logo != null and jugador.logo != ''}"
+                                    class="fa-solid fa-user text-secondary" style="font-size: 0.9rem;"></i>
                             </div>
-                            <span class="fw-bold" th:text="${jugador.name}"></span>
-                        </div>
+
+                            <span class="fw-bold link-primary" th:text="${jugador.name}"
+                                style="transition: color 0.2s;"></span>
+
+                        </a>
                     </td>
 
                     <td class="align-middle" th:text="${jugador.team.name}"></td>
@@ -117,7 +123,8 @@
                         ? ${#numbers.formatDecimal(jugador.goles * 1.0 / jugador.partidosJugados, 1,2)} : '0.00'">
                     </td>
 
-                    <td class="align-middle" th:text="${jugador.partidosJugados > 0} 
+                    <td class="align-middle"
+                        th:text="${jugador.partidosJugados > 0} 
                         ? ${#numbers.formatDecimal(jugador.asistencias * 1.0 / jugador.partidosJugados, 1,2)} : '0.00'">
                     </td>
 
