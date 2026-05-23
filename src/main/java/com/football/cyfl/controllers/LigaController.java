@@ -289,4 +289,87 @@ public class LigaController {
 
         return "verEquipo";
     }
+
+    @GetMapping("/liga/{leagueId}/jugador/{playerId}")
+    public String verPerfilJugador(@PathVariable Long leagueId,
+            @PathVariable Long playerId,
+            Model model,
+            Principal principal) {
+
+        if (principal == null) {
+            return "redirect:/login";
+        }
+
+        Player jugador = playerRepository.findById(playerId)
+                .orElseThrow(() -> new RuntimeException("Jugador no encontrado"));
+
+        Team equipo = jugador.getTeam();
+
+        model.addAttribute("ligaId", leagueId);
+        model.addAttribute("jugador", jugador);
+        model.addAttribute("equipo", equipo);
+
+        return "perfil";
+    }
+
+    @GetMapping("/liga/{leagueId}/jugador/{playerId}/actualizarStats")
+    public String mostrarFormularioStats(@PathVariable Long leagueId,
+            @PathVariable Long playerId,
+            Model model) {
+
+        Player jugador = playerRepository.findById(playerId)
+                .orElseThrow(() -> new RuntimeException("Jugador no encontrado"));
+
+        model.addAttribute("ligaId", leagueId);
+        model.addAttribute("jugador", jugador);
+
+        return "actualizarStats";
+    }
+
+    @PostMapping("/liga/{leagueId}/jugador/{playerId}/actualizarStats")
+    public String actualizarStats(
+            @PathVariable Long leagueId,
+            @PathVariable Long playerId,
+            @RequestParam int goles,
+            @RequestParam int asistencias,
+            @RequestParam int partidosGanados,
+            @RequestParam int partidosEmpatados,
+            @RequestParam int partidosPerdidos,
+            @RequestParam int amarillas,
+            @RequestParam int rojas) {
+
+        Player jugador = playerRepository.findById(playerId)
+                .orElseThrow();
+
+        Team equipo = jugador.getTeam();
+
+        // 🔥 SUMAR stats jugador
+        jugador.setGoles(jugador.getGoles() + goles);
+        jugador.setAsistencias(jugador.getAsistencias() + asistencias);
+        int nuevosPartidos = jugador.getPartidosJugados() + partidosGanados + partidosEmpatados + partidosPerdidos;
+        jugador.setPartidosJugados(nuevosPartidos);
+        jugador.setPartidosGanados(jugador.getPartidosGanados() + partidosGanados);
+        jugador.setPartidosEmpatados(jugador.getPartidosEmpatados() + partidosEmpatados);
+        jugador.setPartidosPerdidos(jugador.getPartidosPerdidos() + partidosPerdidos);
+        jugador.setTarjetasAmarillas(jugador.getTarjetasAmarillas() + amarillas);
+        jugador.setTarjetasRojas(jugador.getTarjetasRojas() + rojas);
+
+        // 🔥 PUNTOS
+        int puntos = (partidosGanados * 3) +
+                (partidosEmpatados * 1);
+
+        jugador.setPuntos(jugador.getPuntos() + puntos);
+
+        // 🔥 ACTUALIZAR EQUIPO
+        equipo.setPartidosJugados(equipo.getPartidosJugados() + partidosGanados + partidosEmpatados + partidosPerdidos);
+        equipo.setPartidosGanados(equipo.getPartidosGanados() + partidosGanados);
+        equipo.setPartidosEmpatados(equipo.getPartidosEmpatados() + partidosEmpatados);
+        equipo.setPartidosPerdidos(equipo.getPartidosPerdidos() + partidosPerdidos);
+        equipo.setPuntos(equipo.getPuntos() + puntos);
+
+        playerRepository.save(jugador);
+        teamRepository.save(equipo);
+
+        return "redirect:/liga/" + leagueId + "/jugador/" + playerId;
+    }
 }

@@ -1,192 +1,293 @@
 :root {
-            --cyfl-green: #2ecc71;
-            --cyfl-dark-bg: #0f172a;
-            --cyfl-card-bg: #ffffff;
-            --cyfl-text: #1e293b;
-        }
+    --cyfl-green: #2ecc71;
+    --cyfl-dark-bg: #0f172a;
+    --cyfl-card-bg: #ffffff;
+    --cyfl-text: #1e293b;
+}
 
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f1f5f9;
-            color: var(--cyfl-text);
-            margin: 0;
-            padding: 0;
-        }
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f1f5f9;
+    color: var(--cyfl-text);
+    margin: 0;
+    padding: 0;
+}
 
-        /* Envoltorio principal para la página */
-        .main-wrapper {
-            padding: 40px;
-        }
+/* Envoltorio principal para la página */
+.main-wrapper {
+    padding: 40px;
+}
 
-        /* === BANNER DEL ENCABEZADO === */
-        .team-hero-banner {
-            background: linear-gradient(135deg, var(--cyfl-dark-bg) 0%, #1e293b 100%);
-            border-radius: 16px;
-            padding: 40px;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-            margin-bottom: 30px;
-            position: relative;
-            overflow: hidden;
-        }
+/* === BANNER DEL ENCABEZADO === */
+.team-hero-banner {
+    border-radius: 16px;
+    padding: 40px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.3);
 
-        /* Patrón de fondo sutil del banner */
-        .team-hero-banner::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-image: url('https://www.transparenttextures.com/patterns/p4.png'); /* Patrón sutil */
-            opacity: 0.1;
-        }
+    height: 180px;
+    background: linear-gradient(135deg, #0f172a 0%, #155e37 100%); 
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 
-        .hero-team-info {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-            z-index: 1; /* Por encima del patrón */
-        }
+}
 
-        /* Foto de perfil del equipo (Logo real) */
-        .hero-club-logo {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            border: 5px solid white;
-            background-color: white;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
 
-        .hero-club-logo img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain; /* O cover, depende de tus logos */
-        }
+/* Patrón de fondo sutil del banner */
+.team-hero-banner::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://www.transparenttextures.com/patterns/p4.png');
+    /* Patrón sutil */
+    opacity: 0.1;
+}
 
-        .hero-text h1 {
-            font-size: 3rem;
-            font-weight: 900;
-            margin: 0 0 5px 0;
-            letter-spacing: -1px;
-            text-transform: uppercase;
-        }
+.hero-team-info {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    z-index: 1;
+    /* Por encima del patrón */
 
-        .hero-stadium {
-            font-size: 1.1rem;
-            color: #cbd5e1;
-            margin: 0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+}
 
-        .hero-actions {
-            z-index: 1;
-        }
 
-        /* === SECCIÓN DE LA PLANTILLA === */
-        .squad-card {
-            background-color: var(--cyfl-card-bg);
-            border-radius: 16px;
-            padding: 30px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-            border: none;
-        }
+/* Foto de perfil del equipo (Logo real) */
+.hero-club-logo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 5px solid white;
+    background-color: white;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
 
-        .squad-title {
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 25px;
-            border-bottom: 2px solid #e2e8f0;
-            padding-bottom: 15px;
-        }
+.hero-club-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    /* O cover, depende de tus logos */
+}
 
-        .squad-count {
-            background-color: #f1f5f9;
-            color: var(--cyfl-text);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
+.hero-text h1 {
+    font-size: 3rem;
+    font-weight: 900;
+    margin: 0 0 5px 0;
+    letter-spacing: -1px;
+    text-transform: uppercase;
+}
 
-        /* === TABLA DE JUGADORES ESTILIZADA === */
-        .table-responsive {
-            margin-top: 10px;
-        }
+.hero-stadium {
+    font-size: 1.1rem;
+    color: #cbd5e1;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
 
-        .cyfl-table {
-            width: 100%;
-            vertical-align: middle;
-        }
+.hero-actions {
+    z-index: 1;
+}
 
-        .cyfl-table thead tr {
-            background-color: #f8fafc;
-            color: #64748b;
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            letter-spacing: 0.5px;
-        }
+/* === SECCIÓN DE LA PLANTILLA === */
+.squad-card {
+    background-color: var(--cyfl-card-bg);
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    border: none;
+}
 
-        .cyfl-table th, .cyfl-table td {
-            padding: 15px;
-            border-bottom: 1px solid #e2e8f0;
-        }
+.squad-title {
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 15px;
+}
 
-        .cyfl-table tbody tr:last-child td {
-            border-bottom: none;
-        }
+.squad-count {
+    background-color: #f1f5f9;
+    color: var(--cyfl-text);
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
 
-        .cyfl-table tbody tr:hover {
-            background-color: #f8fafc;
-        }
+/* === TABLA DE JUGADORES ESTILIZADA === */
+.table-responsive {
+    margin-top: 10px;
+}
 
-        .col-dorsal {
-            font-size: 1.3rem;
-            font-weight: 900;
-            color: var(--cyfl-green);
-            text-align: center;
-        }
+.cyfl-table {
+    width: 100%;
+    vertical-align: middle;
+}
 
-        .col-nombre {
-            font-weight: 600;
-            color: var(--cyfl-dark-bg);
-            font-size: 1.05rem;
-        }
+.cyfl-table thead tr {
+    background-color: #f8fafc;
+    color: #64748b;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+}
 
-        .badge-posicion {
-            background-color: #e0f2fe;
-            color: #0369a1;
-            font-weight: 600;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 0.85rem;
-        }
-        
-        .badge-edad {
-            background-color: #f1f5f9;
-            color: var(--cyfl-text);
-            font-weight: 600;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 0.85rem;
-        }
+.cyfl-table th,
+.cyfl-table td {
+    padding: 15px;
+    border-bottom: 1px solid #e2e8f0;
+}
 
-        /* Icono de usuario si no hay foto */
-        .player-avatar {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            background-color: #e2e8f0;
-            color: #94a3b8;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 12px;
-        }
+.cyfl-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.cyfl-table tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+.col-dorsal {
+    font-size: 1.3rem;
+    font-weight: 900;
+    color: var(--cyfl-green);
+    text-align: center;
+}
+
+.col-nombre {
+    font-weight: 600;
+    color: var(--cyfl-dark-bg);
+    font-size: 1.05rem;
+}
+
+.badge-posicion {
+    background-color: #e0f2fe;
+    color: #0369a1;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+}
+
+.badge-edad {
+    background-color: #f1f5f9;
+    color: var(--cyfl-text);
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+}
+
+/* Icono de usuario si no hay foto */
+.player-avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background-color: #e2e8f0;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+}
+
+/* =========================================
+   🔝 TOPBAR (COMPATIBLE CON CYFL STYLE)
+========================================= */
+.topbar {
+    background-color: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    padding: 14px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    position: sticky;
+    top: 0;
+    z-index: 999;
+
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* 🔥 IZQUIERDA (TÍTULO PANEL) */
+.topbar-left {
+    display: flex;
+    align-items: center;
+    min-width: 180px;
+}
+
+.panel-title {
+    font-weight: 800;
+    font-size: 18px;
+    color: #0f172a;
+}
+
+/* 🔥 BOTONES (AHORA BIEN PEGADOS A LA IZQUIERDA) */
+.topbar-actions {
+    display: flex;
+    gap: 12px;
+    flex: 1;
+    justify-content: flex-start; /* 👈 CLAVE */
+    margin-left: 30px;
+}
+
+/* 🔥 DERECHA */
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* botones hover pro */
+.topbar .btn {
+    border-radius: 10px;
+    font-weight: 600;
+    transition: 0.25s ease;
+}
+
+.topbar .btn:hover {
+    transform: translateY(-2px);
+}/* =========================================
+   ✨ PEQUEÑO EFECTO VISUAL GLOBAL EXTRA
+========================================= */
+
+.topbar::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 1px;
+    width: 100%;
+    background: linear-gradient(90deg, transparent, rgba(25, 135, 84, 0.3), transparent);
+}
+
+.sidebar-header, .sidebar-menu {
+    position: relative;
+    z-index: 1;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: #198754; 
+    text-align: center;
+}
+
+.sidebar-header h4 {
+    margin: 0;
+    font-weight: 700;
+    color: white;
+}
