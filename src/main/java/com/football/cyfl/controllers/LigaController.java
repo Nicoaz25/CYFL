@@ -532,31 +532,103 @@ public class LigaController {
         jugador.setDorsal(dorsal);
         jugador.setPosition(position);
 
-
         if (!file.isEmpty()) {
 
-                String carpetaFotos = "src/main/resources/static/uploads/";
-                Path rutaDirectorio = Paths.get(carpetaFotos);
+            String carpetaFotos = "src/main/resources/static/uploads/";
+            Path rutaDirectorio = Paths.get(carpetaFotos);
 
-                if (!Files.exists(rutaDirectorio)) {
-                    Files.createDirectories(rutaDirectorio);
-                }
-
-                String nombreFoto = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-
-                Path rutaCompleta = Paths.get(carpetaFotos + nombreFoto);
-
-                Files.write(rutaCompleta, file.getBytes());
-
-                jugador.setLogo(nombreFoto);
-
-            } else {
-                jugador.setLogo("default.png");
+            if (!Files.exists(rutaDirectorio)) {
+                Files.createDirectories(rutaDirectorio);
             }
+
+            String nombreFoto = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+
+            Path rutaCompleta = Paths.get(carpetaFotos + nombreFoto);
+
+            Files.write(rutaCompleta, file.getBytes());
+
+            jugador.setLogo(nombreFoto);
+
+        } else {
+            jugador.setLogo("default.png");
+        }
 
         playerRepository.save(jugador);
 
         return "redirect:/liga/" + ligaId + "/jugador/" + playerId;
+    }
+
+    @PostMapping("/liga/{id}/eliminar")
+    public String eliminarLiga(@PathVariable Long id) {
+
+        League liga = leagueRepository.findById(id)
+                .orElseThrow();
+
+        // 🔥 borrar equipos manualmente (IMPORTANTE por imágenes)
+        for (Team team : liga.getTeams()) {
+
+            // borrar jugadores + imágenes
+            for (Player p : team.getPlayers()) {
+                if (p.getLogo() != null) {
+                    try {
+                        Files.deleteIfExists(Paths.get("uploads", p.getLogo()));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            // borrar logo del equipo
+            if (team.getLogo() != null) {
+                try {
+                    Files.deleteIfExists(Paths.get("uploads", team.getLogo()));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        // 🔥 borrar liga (cascade debería borrar teams en BD)
+        leagueRepository.delete(liga);
+
+        return "redirect:/home";
+    }
+
+    @GetMapping("/liga/{leagueId}/clasEquipos")
+    public String clasificacionEquipos(
+            @PathVariable Long leagueId,
+            @RequestParam(defaultValue = "puntos") String ordenarPor,
+            Model model) {
+
+        League liga = leagueRepository.findById(leagueId)
+                .orElseThrow(() -> new RuntimeException("Liga no encontrada"));
+
+        List<Team> equipos = teamRepository.findByLeagueId(leagueId);
+
+        switch (ordenarPor) {
+
+            case "ganados":
+                equipos.sort((a, b) -> Integer.compare(b.getPartidosGanados(), a.getPartidosGanados()));
+                break;
+
+            case "empatados":
+                equipos.sort((a, b) -> Integer.compare(b.getPartidosEmpatados(), a.getPartidosEmpatados()));
+                break;
+
+            case "perdidos":
+                equipos.sort((a, b) -> Integer.compare(b.getPartidosPerdidos(), a.getPartidosPerdidos()));
+                break;
+
+            default:
+                equipos.sort((a, b) -> Integer.compare(b.getPuntos(), a.getPuntos()));
+                break;
+        }
+
+        model.addAttribute("liga", liga);
+        model.addAttribute("equipos", equipos);
+        model.addAttribute("ordenarPor", ordenarPor);
+
+        return "clasEquipos";
     }
 
 }

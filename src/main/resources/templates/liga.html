@@ -54,7 +54,8 @@
 
             <header class="topbar">
                 <div class="topbar-actions">
-                    <a href="#" class="btn btn-outline-success fw-bold">
+                    <a th:href="@{/liga/{leagueId}/clasEquipos(leagueId=${liga.id})}"
+                        class="btn btn-outline-success fw-bold">
                         <i class="fa-solid fa-table-list"></i> Clasificación Equipos
                     </a>
                     <a th:href="@{/liga/{leagueId}/clasJugadores(leagueId=${liga.id})}"
