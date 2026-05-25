@@ -12,7 +12,7 @@ import com.football.cyfl.models.User;
 import com.football.cyfl.services.UserService;
 
 @Controller
-public class AuthController {
+public class LogController {
 
     @Autowired
     private UserService userService;

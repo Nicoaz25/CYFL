@@ -180,13 +180,13 @@ public class LigaController {
                 equipo.setLogo(nombreFoto);
 
             } else {
-                equipo.setLogo("default.png");
+                equipo.setLogo("defaultTeam.png");
             }
 
         } catch (IOException e) {
             System.out.println("❌ Error crítico al transferir la imagen: " + e.getMessage());
             e.printStackTrace();
-            equipo.setLogo("default.png");
+            equipo.setLogo("defaultTeam.png");
         }
 
         teamRepository.save(equipo);
@@ -256,7 +256,7 @@ public class LigaController {
                 nuevoJugador.setLogo(nombreFoto);
 
             } else {
-                nuevoJugador.setLogo("default.png");
+                nuevoJugador.setLogo("defaultPlayer.png");
             }
 
             playerRepository.save(nuevoJugador);
@@ -439,7 +439,7 @@ public class LigaController {
 
             if (jugador.getLogo() != null &&
                     !jugador.getLogo().isEmpty() &&
-                    !jugador.getLogo().equals("default.png")) {
+                    !jugador.getLogo().equals("defaultPlayer.png")) {
 
                 try {
 
@@ -461,7 +461,7 @@ public class LigaController {
 
         if (equipo.getLogo() != null &&
                 !equipo.getLogo().isEmpty() &&
-                !equipo.getLogo().equals("default.png")) {
+                !equipo.getLogo().equals("defaultTeam.png")) {
 
             try {
 
@@ -550,7 +550,7 @@ public class LigaController {
             jugador.setLogo(nombreFoto);
 
         } else {
-            jugador.setLogo("default.png");
+            jugador.setLogo("defaultPlayer.png");
         }
 
         playerRepository.save(jugador);
@@ -629,6 +629,20 @@ public class LigaController {
         model.addAttribute("ordenarPor", ordenarPor);
 
         return "clasEquipos";
+    }
+
+    @GetMapping("/perfilUser")
+    public String perfilUser(Model model, Principal principal) {
+
+        String email = principal.getName();
+
+        User usuario = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("emailUsuario", email);
+
+        return "perfilUser";
     }
 
 }

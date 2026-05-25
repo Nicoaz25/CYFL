@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Perfil Usuario - CYFL</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="bg-light">
+
+<!-- VIDEO -->
+<div class="video-container">
+    <video autoplay muted loop playsinline>
+        <source th:src="@{/media/fondo.mp4}" type="video/mp4">
+    </video>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-success shadow-sm mb-5">
+    <div class="container">
+
+        <a class="navbar-brand fw-bold" href="/home">⚽ CYFL</a>
+
+        <ul class="navbar-nav ms-auto align-items-center">
+
+            <li class="nav-item">
+                <span class="text-white me-3"
+                      th:text="'Hola, ' + ${usuario.email}">
+                    Hola
+                </span>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link text-white" href="/home">Home</a>
+            </li>
+
+        </ul>
+
+    </div>
+</nav>
+
+<!-- CONTENIDO -->
+<div class="container">
+
+    <!-- HEADER -->
+    <div class="bg-white p-4 rounded-4 shadow-sm mb-5">
+
+        <div class="row align-items-center">
+
+            <div class="col-md-8">
+                <h1 class="fw-bold m-0">Perfil de Usuario</h1>
+                <p class="text-muted m-0 mt-1">Datos de tu cuenta CYFL</p>
+            </div>
+
+            <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                <a href="/home" class="btn btn-secondary fw-bold">
+                    ← Volver
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- CARD -->
+    <div class="row justify-content-center">
+
+        <div class="col-md-6">
+
+            <div class="card shadow-sm p-4 text-center border-0">
+
+                <!-- AVATAR -->
+                <div class="mb-3">
+                    <div class="rounded-circle bg-success text-white d-inline-flex align-items-center justify-content-center"
+                         style="width: 90px; height: 90px; font-size: 32px; font-weight: bold;">
+
+                        <span th:text="${#strings.substring(usuario.email,0,1)}">U</span>
+
+                    </div>
+                </div>
+
+                <!-- DATOS -->
+                <h3 class="fw-bold" th:text="${usuario.email}">email</h3>
+
+                <hr>
+
+                <div class="text-start">
+
+                    <p>
+                        <strong>Email:</strong>
+                        <span th:text="${usuario.email}"></span>
+                    </p>
+
+                    <p>
+                        <strong>Rol:</strong>
+                        <span th:text="${usuario.role}"></span>
+                    </p>
+
+                    <p>
+                        <strong>Estado:</strong>
+
+                        <span th:if="${usuario.enabled}" class="text-success fw-bold">
+                            Activo
+                        </span>
+
+                        <span th:unless="${usuario.enabled}" class="text-danger fw-bold">
+                            Desactivado
+                        </span>
+
+                    </p>
+
+                </div>
+
+                <hr>
+
+                <form th:action="@{/logout}" method="POST">
+                    <button class="btn btn-dark w-100 fw-bold">
+                        Cerrar sesión
+                    </button>
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

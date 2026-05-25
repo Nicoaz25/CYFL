@@ -29,11 +29,9 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="/home">Inicio</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="/perfil">Perfil</a>
+                        <a class="nav-link text-white" th:href="@{/perfilUser}">
+                            Perfil
+                        </a>
                     </li>
 
                     <li class="nav-item ms-3">
@@ -72,15 +70,12 @@
 
             <div class="col-md-4" th:each="liga : ${ligas}">
 
-                <div class="card card-liga h-100 shadow-sm border-0 overflow-hidden"
-                    style="border-radius: 15px;">
+                <div class="card card-liga h-100 shadow-sm border-0 overflow-hidden" style="border-radius: 15px;">
 
                     <!-- IMAGEN -->
                     <div style="height: 180px; overflow: hidden; background-color: #e9ecef;">
-                        <img th:src="@{'/uploads/' + ${liga.logo}}"
-                             class="card-img-top"
-                             alt="Banner de la liga"
-                             style="width: 100%; height: 100%; object-fit: cover;">
+                        <img th:src="@{'/uploads/' + ${liga.logo}}" class="card-img-top" alt="Banner de la liga"
+                            style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
 
                     <!-- CONTENIDO -->
@@ -96,9 +91,8 @@
                             </span>
                         </div>
 
-                        <p class="text-muted small mb-4"
-                           th:text="${liga.description}"
-                           style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                        <p class="text-muted small mb-4" th:text="${liga.description}"
+                            style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
                             Descripción de la liga
                         </p>
 
@@ -106,20 +100,17 @@
                         <div class="d-grid gap-2">
 
                             <!-- ENTRAR -->
-                            <a th:href="@{/liga/{id}(id=${liga.id})}"
-                               class="btn btn-success fw-bold py-2 shadow-sm"
-                               style="border-radius: 8px;">
+                            <a th:href="@{/liga/{id}(id=${liga.id})}" class="btn btn-success fw-bold py-2 shadow-sm"
+                                style="border-radius: 8px;">
                                 Entrar a la Competición
                             </a>
 
                             <!-- ELIMINAR -->
-                            <form th:action="@{/liga/{id}/eliminar(id=${liga.id})}"
-                                  method="post"
-                                  onsubmit="return confirm('¿Seguro que quieres eliminar esta liga? Se borrarán equipos y jugadores.');">
+                            <form th:action="@{/liga/{id}/eliminar(id=${liga.id})}" method="post"
+                                onsubmit="return confirm('¿Seguro que quieres eliminar esta liga? Se borrarán equipos y jugadores.');">
 
-                                <button type="submit"
-                                        class="btn btn-danger fw-bold py-2 shadow-sm w-100"
-                                        style="border-radius: 8px;">
+                                <button type="submit" class="btn btn-danger fw-bold py-2 shadow-sm w-100"
+                                    style="border-radius: 8px;">
                                     Eliminar Liga
                                 </button>
 
