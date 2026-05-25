@@ -55,7 +55,8 @@
                     <div class="sub-info">
                         <div><i class="fa-solid fa-shield"></i> <span th:text="${equipo.name}"></span></div>
                         <div><i class="fa-solid fa-shirt"></i> Dorsal: <span th:text="${jugador.dorsal}"></span></div>
-                        <div><i class="fa-solid fa-person-running"></i> <span th:text="${jugador.position}"></span></div>
+                        <div><i class="fa-solid fa-person-running"></i> <span th:text="${jugador.position}"></span>
+                        </div>
                         <div><i class="fa-solid fa-cake-candles"></i> Edad: <span th:text="${jugador.age}"></span></div>
                     </div>
                 </div>
@@ -65,6 +66,11 @@
                 <a th:href="@{/liga/{ligaId}/jugador/{playerId}/actualizarStats(ligaId=${ligaId}, playerId=${jugador.id})}"
                     class="btn btn-success fw-bold">
                     <i class="fa-solid fa-chart-line"></i> Actualizar Stats
+                </a>
+                <a th:href="@{/liga/{leagueId}/jugador/{playerId}/editar(
+                    leagueId=${ligaId},
+                    playerId=${jugador.id})}" class="btn btn-primary fw-bold">
+                    <i class="fa-solid fa-pen"></i> Editar Perfil
                 </a>
             </div>
 

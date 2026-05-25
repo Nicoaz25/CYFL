@@ -408,8 +408,155 @@ public class LigaController {
         model.addAttribute("jugadores", jugadores);
         model.addAttribute("ordenarPor", ordenarPor);
 
-    
-
         return "clasJugadores";
     }
+
+    @PostMapping("/liga/{leagueId}/equipo/{teamId}/eliminar")
+    public String eliminarEquipo(
+            @PathVariable Long leagueId,
+            @PathVariable Long teamId,
+            Principal principal) {
+
+        if (principal == null) {
+            return "redirect:/login";
+        }
+
+        Team equipo = teamRepository.findById(teamId)
+                .orElseThrow(() -> new RuntimeException("Equipo no encontrado"));
+
+        // 🔒 Seguridad: comprobar que la liga pertenece al usuario
+        if (!equipo.getLeague().getCreador().getEmail()
+                .equals(principal.getName())) {
+
+            return "redirect:/home?error=no_tienes_permiso";
+        }
+
+        // =========================================
+        // 🗑️ BORRAR LOGOS DE LOS JUGADORES
+        // =========================================
+
+        for (Player jugador : equipo.getPlayers()) {
+
+            if (jugador.getLogo() != null &&
+                    !jugador.getLogo().isEmpty() &&
+                    !jugador.getLogo().equals("default.png")) {
+
+                try {
+
+                    Path rutaJugador = Paths.get(
+                            "src/main/resources/static/uploads/"
+                                    + jugador.getLogo());
+
+                    Files.deleteIfExists(rutaJugador);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        // =========================================
+        // 🗑️ BORRAR LOGO DEL EQUIPO
+        // =========================================
+
+        if (equipo.getLogo() != null &&
+                !equipo.getLogo().isEmpty() &&
+                !equipo.getLogo().equals("default.png")) {
+
+            try {
+
+                Path rutaEquipo = Paths.get(
+                        "src/main/resources/static/uploads/"
+                                + equipo.getLogo());
+
+                Files.deleteIfExists(rutaEquipo);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // =========================================
+        // 🗑️ BORRAR EQUIPO + JUGADORES
+        // =========================================
+
+        teamRepository.delete(equipo);
+
+        return "redirect:/liga/" + leagueId;
+    }
+
+    @PostMapping("/liga/{leagueId}/equipo/{teamId}/jugador/{playerId}/eliminar")
+    public String eliminarJugador(
+            @PathVariable Long leagueId,
+            @PathVariable Long teamId,
+            @PathVariable Long playerId) {
+
+        Player jugador = playerRepository.findById(playerId)
+                .orElseThrow();
+
+        playerRepository.delete(jugador);
+
+        return "redirect:/liga/" + leagueId + "/equipo/" + teamId;
+    }
+
+    @GetMapping("/liga/{leagueId}/jugador/{playerId}/editar")
+    public String editarJugadorForm(
+            @PathVariable Long leagueId,
+            @PathVariable Long playerId,
+            Model model) {
+
+        Player jugador = playerRepository.findById(playerId)
+                .orElseThrow();
+
+        model.addAttribute("jugador", jugador);
+        model.addAttribute("ligaId", leagueId);
+
+        return "editarJugador";
+    }
+
+    @PostMapping("/liga/{ligaId}/jugador/{playerId}/editar")
+    public String editarJugador(
+            @PathVariable Long ligaId,
+            @PathVariable Long playerId,
+            @RequestParam String name,
+            @RequestParam int age,
+            @RequestParam int dorsal,
+            @RequestParam String position,
+            @RequestParam(value = "file", required = false) MultipartFile file) throws IOException {
+
+        Player jugador = playerRepository.findById(playerId)
+                .orElseThrow();
+
+        jugador.setName(name);
+        jugador.setAge(age);
+        jugador.setDorsal(dorsal);
+        jugador.setPosition(position);
+
+
+        if (!file.isEmpty()) {
+
+                String carpetaFotos = "src/main/resources/static/uploads/";
+                Path rutaDirectorio = Paths.get(carpetaFotos);
+
+                if (!Files.exists(rutaDirectorio)) {
+                    Files.createDirectories(rutaDirectorio);
+                }
+
+                String nombreFoto = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+
+                Path rutaCompleta = Paths.get(carpetaFotos + nombreFoto);
+
+                Files.write(rutaCompleta, file.getBytes());
+
+                jugador.setLogo(nombreFoto);
+
+            } else {
+                jugador.setLogo("default.png");
+            }
+
+        playerRepository.save(jugador);
+
+        return "redirect:/liga/" + ligaId + "/jugador/" + playerId;
+    }
+
 }

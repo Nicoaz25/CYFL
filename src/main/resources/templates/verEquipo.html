@@ -131,6 +131,20 @@
                                 <td>
                                     <span class="badge-edad" th:text="${jugador.age} + ' años'">28 años</span>
                                 </td>
+
+                                <td class="text-end">
+                                    <form th:action="@{/liga/{leagueId}/equipo/{teamId}/jugador/{playerId}/eliminar(
+                                        leagueId=${ligaId},
+                                        teamId=${equipo.id},
+                                        playerId=${jugador.id})}" method="post"
+                                        onsubmit="return confirm('¿Seguro que quieres eliminar este jugador?');">
+
+                                        <button class="btn btn-sm btn-danger">
+                                            <i class="fa-solid fa-trash"></i> Eliminar
+                                        </button>
+
+                                    </form>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
