@@ -17,27 +17,27 @@
 
         <header class="topbar">
             <div class="sidebar-header">
-                <h4>⚽ CYFL Equipo</h4>
+                <h4>⚽ CYFL Team</h4>
             </div>
 
             <div class="topbar-actions">
                 <a th:href="@{/liga/{leagueId}/clasEquipos(leagueId=${ligaId})}"
                     class="btn btn-outline-success fw-bold">
-                    <i class="fa-solid fa-table-list"></i> Clasificación Equipos
+                    <i class="fa-solid fa-table-list"></i> Team Classification
                 </a>
 
                 <a th:href="@{/liga/{leagueId}/clasJugadores(leagueId=${ligaId})}"
                     class="btn btn-outline-primary fw-bold">
-                    <i class="fa-solid fa-medal"></i> Clasificación Jugadores
+                    <i class="fa-solid fa-medal"></i> Player Ranking
                 </a>
             </div>
 
             <div class="topbar-right d-flex align-items-center gap-3">
-                <span class="text-muted fw-bold">Modo Administrador</span>
+                <span class="text-muted fw-bold">Administrator Mode</span>
 
                 <form th:action="@{/logout}" method="POST" class="m-0">
                     <button type="submit" class="btn btn-dark btn-sm">
-                        <i class="fa-solid fa-right-from-bracket"></i> Salir
+                        <i class="fa-solid fa-right-from-bracket"></i> Exit
                     </button>
                 </form>
             </div>
@@ -56,17 +56,17 @@
                 </div>
 
                 <div class="hero-text">
-                    <h1 th:text="${equipo.name}">Nombre del Equipo</h1>
+                    <h1 th:text="${equipo.name}">Team Name</h1>
                     <p class="hero-stadium">
                         <i class="fa-solid fa-location-dot"></i>
-                        <span th:text="'Estadio: ' + ${equipo.stadium}">Estadio del Club</span>
+                        <span th:text="'Estadio: ' + ${equipo.stadium}">Club Stadium</span>
                     </p>
                 </div>
             </div>
 
             <div class="hero-actions">
                 <a th:href="@{/liga/{id}(id=${ligaId})}" class="btn btn-outline-light px-4 fw-bold shadow-sm">
-                    <i class="fa-solid fa-arrow-left me-2"></i> Volver a la Liga
+                    <i class="fa-solid fa-arrow-left me-2"></i> Back to the League
                 </a>
             </div>
         </header>
@@ -77,8 +77,8 @@
             <div class="card-body p-0">
 
                 <div class="squad-title text-secondary">
-                    <h4 class="fw-bold m-0"><i class="fa-solid fa-users me-2 text-success"></i>Plantilla Oficial</h4>
-                    <span class="squad-count" th:text="${#lists.size(jugadores)} + ' Jugadores Inscriptos'">0</span>
+                    <h4 class="fw-bold m-0"><i class="fa-solid fa-users me-2 text-success"></i>Official Template</h4>
+                    <span class="squad-count" th:text="${#lists.size(jugadores)} + ' Registered Players'">0</span>
                 </div>
 
                 <div class="table-responsive">
@@ -86,16 +86,16 @@
                         <thead>
                             <tr>
                                 <th class="text-center">Dorsal</th>
-                                <th>Nombre</th>
-                                <th>Posición</th>
-                                <th>Edad</th>
+                                <th>Name</th>
+                                <th>Position</th>
+                                <th>Age</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr th:if="${#lists.isEmpty(jugadores)}">
                                 <td colspan="4" class="text-center text-muted py-5 fs-5">
                                     <i class="fa-solid fa-user-slash fs-1 d-block mb-3 opacity-50"></i>
-                                    Aún no hay jugadores registrados en este equipo.
+                                    There are no players registered on this team yet.
                                 </td>
                             </tr>
 
@@ -118,7 +118,7 @@
                                         <div class="col-nombre ms-2">
                                             <a th:href="@{/liga/{leagueId}/jugador/{playerId}(leagueId=${ligaId}, playerId=${jugador.id})}"
                                                 class="text-dark fw-bold text-decoration-none">
-                                                <span th:text="${jugador.name}">Jugador</span>
+                                                <span th:text="${jugador.name}">Player</span>
                                             </a>
                                         </div>
                                     </div>
@@ -126,11 +126,11 @@
 
                                 <td>
                                     <span class="badge-posicion badge-pill"
-                                        th:text="${jugador.position}">Delantero</span>
+                                        th:text="${jugador.position}">Forward</span>
                                 </td>
 
                                 <td>
-                                    <span class="badge-edad" th:text="${jugador.age} + ' años'">28 años</span>
+                                    <span class="badge-edad" th:text="${jugador.age} + ' years'">28 years</span>
                                 </td>
 
                                 <td class="text-end">
@@ -141,7 +141,7 @@
                                         onsubmit="return confirm('¿Seguro que quieres eliminar este jugador?');">
 
                                         <button class="btn btn-sm btn-danger">
-                                            <i class="fa-solid fa-trash"></i> Eliminar
+                                            <i class="fa-solid fa-trash"></i> Delete
                                         </button>
 
                                     </form>

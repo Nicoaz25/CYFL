@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${liga.name} + ' - Crear Jugador'">Crear Jugador - CYFL</title>
+    <title th:text="${liga.name} + ' - Crear Jugador'">Create Player - CYFL</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -77,32 +77,32 @@
             </div>
             <ul class="sidebar-menu">
                 <li>
-                    <a href="/home" class="back-link mb-3"><i class="fa-solid fa-arrow-left"></i> Volver a Mis Ligas</a>
+                    <a href="/home" class="back-link mb-3"><i class="fa-solid fa-arrow-left"></i> Back to My Leagues</a>
                 </li>
                 <hr class="border-secondary mx-3">
 
                 <li>
-                    <a href="#" class="active"><i class="fa-solid fa-house"></i> Resumen General</a>
+                    <a href="#" class="active"><i class="fa-solid fa-house"></i> General Summary</a>
                 </li>
 
-                <li class="mt-3 px-3 pb-2 text-uppercase text-secondary small fw-bold">Gestión</li>
+                <li class="mt-3 px-3 pb-2 text-uppercase text-secondary small fw-bold">Management</li>
 
                 <li>
                     <a th:href="@{/liga/{id}/crearEquipo(id=${liga.id})}">
-                        <i class="fa-solid fa-shield-halved"></i> Crear Equipo
+                        <i class="fa-solid fa-shield-halved"></i> Create Team
                     </a>
                 </li>
 
                 <li>
                     <a th:href="@{/liga/{id}/crearJugador(id=${liga.id})}">
-                        <i class="fa-solid fa-user-plus"></i> Crear Jugador
+                        <i class="fa-solid fa-user-plus"></i> Create Player
                     </a>
                 </li>
                 
 
-                <li class="mt-3 px-3 pb-2 text-uppercase text-secondary small fw-bold">Ajustes</li>
+                <li class="mt-3 px-3 pb-2 text-uppercase text-secondary small fw-bold">Settings</li>
                 <li>
-                    <a href="#"><i class="fa-solid fa-gear"></i> Configuración</a>
+                    <a href="#"><i class="fa-solid fa-gear"></i> Configuration</a>
                 </li>
             </ul>
         </aside>
@@ -112,18 +112,18 @@
             <header class="topbar">
                 <div class="topbar-actions">
                     <a href="#" class="btn btn-outline-success fw-bold">
-                        <i class="fa-solid fa-table-list"></i> Clasificación Equipos
+                        <i class="fa-solid fa-table-list"></i> Team Classification
                     </a>
                     <a href="#" class="btn btn-outline-primary fw-bold">
-                        <i class="fa-solid fa-medal"></i> Clasificación Jugadores
+                        <i class="fa-solid fa-medal"></i> Player Classification
                     </a>
                 </div>
 
                 <div class="d-flex align-items-center gap-3">
-                    <span class="text-muted fw-bold">Modo Administrador</span>
+                    <span class="text-muted fw-bold">Administrator Mode</span>
                     <form th:action="@{/logout}" method="POST" class="m-0">
                         <button type="submit" class="btn btn-dark btn-sm"><i class="fa-solid fa-right-from-bracket"></i>
-                            Salir</button>
+                            Exit</button>
                     </form>
                 </div>
             </header>
@@ -134,9 +134,9 @@
 
                     <div class="banner-text">
                         <span class="badge bg-success mb-2 text-uppercase fw-bold"
-                            style="letter-spacing: 1px;">Competición Oficial</span>
-                        <h1 class="fw-bold mb-1" th:text="${liga.name}">Nombre de la Liga</h1>
-                        <p class="mb-0 text-white-50 small" th:text="${liga.description}">Descripción de la competición
+                            style="letter-spacing: 1px;">Official Competition</span>
+                        <h1 class="fw-bold mb-1" th:text="${liga.name}">League Name</h1>
+                        <p class="mb-0 text-white-50 small" th:text="${liga.description}">Competition description
                         </p>
                     </div>
                 </div>
@@ -144,16 +144,15 @@
 
             <div class="p-4">
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h3 class="fw-bold m-0"><i class="fa-solid fa-list-ul me-2 text-success"></i> Equipos Inscritos</h3>
-                    <span class="badge bg-success fs-6" th:text="${#lists.size(equipos)} + ' Equipos'">0 Equipos</span>
+                    <h3 class="fw-bold m-0"><i class="fa-solid fa-list-ul me-2 text-success"></i> Registered Teams</h3>
+                    <span class="badge bg-success fs-6" th:text="${#lists.size(equipos)} + ' Equipos'">0 Teams</span>
                 </div>
 
                 <div th:if="${#lists.isEmpty(equipos)}"
                     class="alert alert-warning border-0 shadow-sm rounded-3 py-4 text-center">
                     <i class="fa-solid fa-circle-exclamation fs-3 text-warning mb-2 d-block"></i>
-                    <h5 class="fw-bold">Aún no hay equipos en esta liga</h5>
-                    <p class="text-muted mb-0">Utiliza el botón "Crear Equipo" del menú lateral izquierdo para añadir el
-                        primer participante a la competición.</p>
+                    <h5 class="fw-bold">There are no teams in this league yet.</h5>
+                    <p class="text-muted mb-0">Use the "Create Team" button in the left sidebar menu to add the first participant to the competition.</p>
                 </div>
 
                 <div th:unless="${#lists.isEmpty(equipos)}" class="d-flex flex-column gap-3">
@@ -171,9 +170,9 @@
                             </div>
 
                             <div>
-                                <h5 class="fw-bold text-dark m-0 mb-1" th:text="${equipo.name}">Nombre del Club</h5>
+                                <h5 class="fw-bold text-dark m-0 mb-1" th:text="${equipo.name}">Club Name</h5>
                                 <span class="text-muted small"><i class="fa-solid fa-location-dot text-danger me-1"></i>
-                                    <span th:text="${equipo.stadium}">Estadio</span></span>
+                                    <span th:text="${equipo.stadium}">Stadium</span></span>
                             </div>
                         </div>
 
@@ -181,7 +180,7 @@
                             <a th:href="@{/liga/{leagueId}/equipo/{teamId}(leagueId=${liga.id}, teamId=${equipo.id})}"
                                 class="btn btn-outline-success btn-sm px-4 fw-bold shadow-sm"
                                 style="border-radius: 8px;">
-                                <i class="fa-solid fa-eye me-1"></i> Ver equipo
+                                <i class="fa-solid fa-eye me-1"></i> View team
                             </a>
                         </div>
 
@@ -203,10 +202,10 @@
                     <i class="fa-solid fa-user-plus fs-3"></i>
                 </div>
 
-                <h3 class="fw-bold m-0" style="color: #1e293b;">Crear Nuevo Jugador</h3>
+                <h3 class="fw-bold m-0" style="color: #1e293b;">Create New Player</h3>
 
                 <p class="text-muted small">
-                    Añade un jugador></span>
+                    Add a player</span>
                 </p>
             </div>
 
@@ -216,13 +215,13 @@
 
                 <!-- NOMBRE -->
                 <div class="mb-3">
-                    <label class="form-label">Nombre del Jugador</label>
+                    <label class="form-label">Player Name</label>
                     <input type="text" class="form-control" name="name" required>
                 </div>
 
                 <!-- EDAD -->
                 <div class="mb-3">
-                    <label class="form-label">Edad</label>
+                    <label class="form-label">Age</label>
                     <input type="number" class="form-control" name="age" min="1" max="60" required>
                 </div>
 
@@ -234,21 +233,21 @@
 
                 <!-- POSICIÓN -->
                 <div class="mb-3">
-                    <label class="form-label">Posición</label>
+                    <label class="form-label">Position</label>
                     <select class="form-select" name="position" required>
-                        <option value="">Selecciona posición</option>
-                        <option value="Portero">Portero</option>
-                        <option value="Defensa">Defensa</option>
-                        <option value="Centrocampista">Centrocampista</option>
-                        <option value="Delantero">Delantero</option>
+                        <option value="">Select position</option>
+                        <option value="Portero">Goalkeeper</option>
+                        <option value="Defensa">Defense</option>
+                        <option value="Centrocampista">Midfield</option>
+                        <option value="Delantero">Forward</option>
                     </select>
                 </div>
 
                 <!-- EQUIPO -->
                 <div class="mb-3">
-                    <label class="form-label">Equipo</label>
+                    <label class="form-label">Team</label>
                     <select class="form-select" name="teamId" required>
-                        <option value="">Selecciona un equipo</option>
+                        <option value="">Select a team</option>
 
                         <option th:each="equipo : ${equipos}" th:value="${equipo.id}" th:text="${equipo.name}">
                         </option>
@@ -257,7 +256,7 @@
 
                 <!-- FOTO -->
                 <div class="mb-3">
-                    <label class="form-label">Foto del Jugador (Opcional)</label>
+                    <label class="form-label">Player Photo (Optional)</label>
                     <input type="file" class="form-control" name="file" accept="image/*">
                 </div>
 
@@ -265,11 +264,11 @@
                 <div class="d-flex justify-content-between mt-4">
 
                     <a th:href="@{/liga/{id}(id=${liga.id})}" class="btn btn-secondary">
-                        Cancelar
+                        Cancel
                     </a>
 
                     <button type="submit" class="btn btn-primary">
-                        Crear Jugador
+                        Create Player
                     </button>
 
                 </div>

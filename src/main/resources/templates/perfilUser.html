@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Perfil Usuario - CYFL</title>
+    <title>User Profile - CYFL</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
@@ -28,8 +28,8 @@
 
             <li class="nav-item">
                 <span class="text-white me-3"
-                      th:text="'Hola, ' + ${usuario.email}">
-                    Hola
+                      th:text="'Hello, ' + ${usuario.email}">
+                    Hello
                 </span>
             </li>
 
@@ -51,13 +51,13 @@
         <div class="row align-items-center">
 
             <div class="col-md-8">
-                <h1 class="fw-bold m-0">Perfil de Usuario</h1>
-                <p class="text-muted m-0 mt-1">Datos de tu cuenta CYFL</p>
+                <h1 class="fw-bold m-0">User Profile</h1>
+                <p class="text-muted m-0 mt-1">Your account details CYFL</p>
             </div>
 
             <div class="col-md-4 text-md-end mt-3 mt-md-0">
                 <a href="/home" class="btn btn-secondary fw-bold">
-                    ← Volver
+                    ← Return
                 </a>
             </div>
 
@@ -100,14 +100,14 @@
                     </p>
 
                     <p>
-                        <strong>Estado:</strong>
+                        <strong>State:</strong>
 
                         <span th:if="${usuario.enabled}" class="text-success fw-bold">
-                            Activo
+                            Active
                         </span>
 
                         <span th:unless="${usuario.enabled}" class="text-danger fw-bold">
-                            Desactivado
+                            Deactivated
                         </span>
 
                     </p>
@@ -118,7 +118,7 @@
 
                 <form th:action="@{/logout}" method="POST">
                     <button class="btn btn-dark w-100 fw-bold">
-                        Cerrar sesión
+                        Log Out
                     </button>
                 </form>
 

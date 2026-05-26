@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Perfil Jugador | CYFL</title>
+    <title>Player Profile | CYFL</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -15,25 +15,25 @@
     <header class="topbar">
         <div class="topbar-left">
             <div class="sidebar-header">
-                <h4>⚽ CYFL Jugador</h4>
+                <h4>⚽ CYFL Player</h4>
             </div>
             <div class="topbar-actions">
                 <a th:href="@{/liga/{leagueId}/clasEquipos(leagueId=${ligaId})}"
                     class="btn btn-outline-success fw-bold">
-                    <i class="fa-solid fa-table-list"></i> Clasificación Equipos
+                    <i class="fa-solid fa-table-list"></i> Team Classification
                 </a>
                 <a th:href="@{/liga/{leagueId}/clasJugadores(leagueId=${ligaId})}"
                     class="btn btn-outline-primary fw-bold">
-                    <i class="fa-solid fa-medal"></i> Clasificación Jugadores
+                    <i class="fa-solid fa-medal"></i> Player Ranking
                 </a>
             </div>
         </div>
 
         <div class="topbar-right d-flex align-items-center gap-3">
-            <span class="text-muted fw-bold">Modo Administrador</span>
+            <span class="text-muted fw-bold">Administrator Mode</span>
             <form th:action="@{/logout}" method="POST" class="m-0">
                 <button type="submit" class="btn btn-dark btn-sm">
-                    <i class="fa-solid fa-right-from-bracket"></i> Salir
+                    <i class="fa-solid fa-right-from-bracket"></i> Exit
                 </button>
             </form>
         </div>
@@ -52,13 +52,13 @@
                 </div>
 
                 <div class="ms-3">
-                    <h1 class="player-name" th:text="${jugador.name}">Jugador</h1>
+                    <h1 class="player-name" th:text="${jugador.name}">Player</h1>
                     <div class="sub-info">
                         <div><i class="fa-solid fa-shield"></i> <span th:text="${equipo.name}"></span></div>
                         <div><i class="fa-solid fa-shirt"></i> Dorsal: <span th:text="${jugador.dorsal}"></span></div>
                         <div><i class="fa-solid fa-person-running"></i> <span th:text="${jugador.position}"></span>
                         </div>
-                        <div><i class="fa-solid fa-cake-candles"></i> Edad: <span th:text="${jugador.age}"></span></div>
+                        <div><i class="fa-solid fa-cake-candles"></i> Age: <span th:text="${jugador.age}"></span></div>
                     </div>
                 </div>
             </div>
@@ -66,63 +66,63 @@
             <div class="text-center">
                 <a th:href="@{/liga/{ligaId}/jugador/{playerId}/actualizarStats(ligaId=${ligaId}, playerId=${jugador.id})}"
                     class="btn btn-success fw-bold">
-                    <i class="fa-solid fa-chart-line"></i> Actualizar Stats
+                    <i class="fa-solid fa-chart-line"></i> Update Stats
                 </a>
                 <a th:href="@{/liga/{leagueId}/jugador/{playerId}/editar(
                     leagueId=${ligaId},
                     playerId=${jugador.id})}" class="btn btn-primary fw-bold">
-                    <i class="fa-solid fa-pen"></i> Editar Perfil
+                    <i class="fa-solid fa-pen"></i> Edit Profile
                 </a>
             </div>
 
             <div class="text-end">
                 <a th:href="@{/liga/{id}/equipo/{teamId}(id=${ligaId}, teamId=${equipo.id})}" class="back-btn">
-                    <i class="fa fa-arrow-left"></i> Volver
+                    <i class="fa fa-arrow-left"></i> Return
                 </a>
             </div>
 
         </div>
 
         <div class="section-title">
-            <i class="fa-solid fa-chart-line"></i> Estadísticas del Jugador
+            <i class="fa-solid fa-chart-line"></i> Player Statistics
         </div>
 
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-number" th:text="${jugador.goles}">0</div>
-                <div class="stat-label">Goles</div>
+                <div class="stat-label">Goals</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number" th:text="${jugador.asistencias}">0</div>
-                <div class="stat-label">Asistencias</div>
+                <div class="stat-label">Assists</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number" th:text="${jugador.partidosJugados}">0</div>
-                <div class="stat-label">Partidos Jugados</div>
+                <div class="stat-label">Matches Played</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number" th:text="${jugador.partidosGanados}">0</div>
-                <div class="stat-label">P.Ganados</div>
+                <div class="stat-label">M.Won</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number" th:text="${jugador.partidosEmpatados}">0</div>
-                <div class="stat-label">P.Empatados</div>
+                <div class="stat-label">P.Tied</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number" th:text="${jugador.partidosPerdidos}">0</div>
-                <div class="stat-label">P.Perdidos</div>
+                <div class="stat-label">P.Lost</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number" th:text="${jugador.tarjetasAmarillas}">0</div>
-                <div class="stat-label">Amarillas</div>
+                <div class="stat-label">Yellow</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number" th:text="${jugador.tarjetasRojas}">0</div>
-                <div class="stat-label">Rojas</div>
+                <div class="stat-label">Reds</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number" th:text="${jugador.puntos}">0</div>
-                <div class="stat-label">Puntos</div>
+                <div class="stat-label">Points</div>
             </div>
         </div>
 

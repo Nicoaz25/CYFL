@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Clasificación Equipos | CYFL</title>
+    <title>Teams Classification | CYFL</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -39,13 +39,13 @@
             <div>
                 <h2 class="fw-bold mb-0">
                     <i class="fa-solid fa-shield-halved text-success me-2"></i>
-                    Ranking de Equipos
+                    Teams Ranking
                 </h2>
-                <p class="text-white-50 mb-0 mt-1">Clasificación oficial de la liga</p>
+                <p class="text-white-50 mb-0 mt-1">Official league standings</p>
             </div>
 
             <a th:href="@{/liga/{id}(id=${liga.id})}" class="btn btn-outline-light fw-bold">
-                <i class="fa-solid fa-arrow-left me-2"></i> Volver a la Liga
+                <i class="fa-solid fa-arrow-left me-2"></i> Back to the League
             </a>
         </div>
     </div>
@@ -55,16 +55,16 @@
         <div class="d-flex justify-content-between align-items-center mb-4">
 
             <h4 class="text-secondary m-0">
-                <i class="fa-solid fa-filter me-2"></i>Filtro de clasificación
+                <i class="fa-solid fa-filter me-2"></i> Sorting filter
             </h4>
 
             <form th:action="@{/liga/{leagueId}/clasEquipos(leagueId=${liga.id})}" method="get">
                 <select name="ordenarPor" class="form-select shadow-sm fw-bold" onchange="this.form.submit()">
 
-                    <option value="puntos" th:selected="${ordenarPor == 'puntos'}">⭐ Puntos</option>
-                    <option value="ganados" th:selected="${ordenarPor == 'ganados'}">🏆 Ganados</option>
-                    <option value="empatados" th:selected="${ordenarPor == 'empatados'}">🤝 Empatados</option>
-                    <option value="perdidos" th:selected="${ordenarPor == 'perdidos'}">❌ Perdidos</option>
+                    <option value="puntos" th:selected="${ordenarPor == 'puntos'}">⭐ Points</option>
+                    <option value="ganados" th:selected="${ordenarPor == 'ganados'}">🏆 Won</option>
+                    <option value="empatados" th:selected="${ordenarPor == 'empatados'}">🤝 Tied</option>
+                    <option value="perdidos" th:selected="${ordenarPor == 'perdidos'}">❌ Lost</option>
 
                 </select>
             </form>
@@ -76,11 +76,11 @@
             <thead class="table-dark">
                 <tr>
                     <th>#</th>
-                    <th>Equipo</th>
-                    <th>PJ</th>
-                    <th>PG</th>
-                    <th>PE</th>
-                    <th>PP</th>
+                    <th>Teams</th>
+                    <th>MP</th>
+                    <th>MW</th>
+                    <th>MT</th>
+                    <th>ML</th>
                     <th>Pts</th>
                 </tr>
             </thead>

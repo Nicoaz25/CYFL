@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Clasificación Jugadores | CYFL</title>
+    <title>Teams Classification | CYFL</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -38,12 +38,12 @@
     <div class="header-banner shadow">
         <div class="container d-flex justify-content-between align-items-center">
             <div>
-                <h2 class="fw-bold mb-0"><i class="fa-solid fa-trophy text-warning me-2"></i> Ranking de Jugadores</h2>
-                <p class="text-white-50 mb-0 mt-1">Estadísticas globales de la liga</p>
+                <h2 class="fw-bold mb-0"><i class="fa-solid fa-trophy text-warning me-2"></i> Player Ranking</h2>
+                <p class="text-white-50 mb-0 mt-1">Global league statistics</p>
             </div>
 
             <a th:href="@{/liga/{id}(id=${liga.id})}" class="btn btn-outline-light fw-bold shadow-sm">
-                <i class="fa-solid fa-arrow-left me-2"></i> Volver a la Liga
+                <i class="fa-solid fa-arrow-left me-2"></i> Back to the League
             </a>
         </div>
     </div>
@@ -52,15 +52,15 @@
 
         <div class="d-flex justify-content-between align-items-center mb-4">
 
-            <h4 class="text-secondary m-0"><i class="fa-solid fa-filter me-2"></i>Filtro de clasificación</h4>
+            <h4 class="text-secondary m-0"><i class="fa-solid fa-filter me-2"></i>Sorting filter</h4>
 
             <form th:action="@{/liga/{leagueId}/clasJugadores(leagueId=${liga.id})}" method="get" class="m-0">
                 <select name="ordenarPor" class="form-select fw-bold shadow-sm" onchange="this.form.submit()"
                     style="cursor: pointer; min-width: 200px;">
-                    <option value="goles" th:selected="${ordenarPor == 'goles'}">⚽ Goles</option>
-                    <option value="asistencias" th:selected="${ordenarPor == 'asistencias'}">👟 Asistencias</option>
-                    <option value="puntos" th:selected="${ordenarPor == 'puntos'}">⭐ Puntos</option>
-                    <option value="partidos" th:selected="${ordenarPor == 'partidos'}">🏃 Partidos Jugados</option>
+                    <option value="goles" th:selected="${ordenarPor == 'goles'}">⚽ Goals</option>
+                    <option value="asistencias" th:selected="${ordenarPor == 'asistencias'}">👟 Assists</option>
+                    <option value="puntos" th:selected="${ordenarPor == 'puntos'}">⭐ Points</option>
+                    <option value="partidos" th:selected="${ordenarPor == 'partidos'}">🏃 Matches Played</option>
                 </select>
             </form>
 
@@ -71,17 +71,17 @@
             <thead class="table-dark">
                 <tr>
                     <th>#</th>
-                    <th>Jugador</th>
-                    <th>Equipo</th>
+                    <th>Player</th>
+                    <th>Team</th>
                     <th>G</th>
                     <th>A</th>
-                    <th>PJ</th>
-                    <th>PG</th>
-                    <th>PE</th>
-                    <th>PP</th>
+                    <th>MP</th>
+                    <th>MG</th>
+                    <th>MT</th>
+                    <th>ML</th>
                     <th>Pts</th>
-                    <th>G/P</th>
-                    <th>A/P</th>
+                    <th>G/M</th>
+                    <th>A/M</th>
                     <th>🟨</th>
                     <th>🟥</th>
                 </tr>
