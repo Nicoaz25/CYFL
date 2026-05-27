@@ -48,10 +48,11 @@
 </head>
 
 <body>
+    <!-- Fondo dashboard difuminado -->
     <div class="dashboard-container" style="user-select: none; pointer-events: none; filter: blur(2px);">
         <aside class="sidebar">
             <div class="sidebar-header">
-                <h4>⚽ CYFL Panel</h4>
+                <h4><img src="/media/LogoCYFL.png" alt="CYFL Panel" height="40" class="me-1"> CYFL Panel</h4>
             </div>
             <ul class="sidebar-menu">
                 <li>
@@ -84,7 +85,89 @@
                 </li>
             </ul>
         </aside>
-        
+
+        <main class="main-content">
+
+            <header class="topbar">
+                <div class="topbar-actions">
+                    <a th:href="@{/liga/{leagueId}/clasEquipos(leagueId=${liga.id})}" class="btn btn-outline-success fw-bold">
+                        <i class="fa-solid fa-table-list"></i> Team Classification
+                    </a>
+                    <a th:href="@{/liga/{leagueId}/clasJugadores(leagueId=${liga.id})}" class="btn btn-outline-primary fw-bold">
+                        <i class="fa-solid fa-medal"></i> Player Classification
+                    </a>
+                </div>
+
+                <div class="d-flex align-items-center gap-3">
+                    <span class="text-muted fw-bold">Administrator Mode</span>
+                    <form th:action="@{/logout}" method="POST" class="m-0">
+                        <button type="submit" class="btn btn-dark btn-sm"><i class="fa-solid fa-right-from-bracket"></i>
+                            Exit</button>
+                    </form>
+                </div>
+            </header>
+
+            <div class="league-banner">
+                <div class="banner-content-wrapper">
+                    <img th:src="@{'/uploads/' + ${liga.logo}}" alt="Logo de la liga" class="banner-league-logo">
+
+                    <div class="banner-text">
+                        <span class="badge bg-success mb-2 text-uppercase fw-bold"
+                            style="letter-spacing: 1px;">Official Competition</span>
+                        <h1 class="fw-bold mb-1" th:text="${liga.name}">League Name</h1>
+                        <p class="mb-0 text-white-50 small" th:text="${liga.description}">Competition description
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3 class="fw-bold m-0"><i class="fa-solid fa-list-ul me-2 text-success"></i> Registered Teams</h3>
+                    <span class="badge bg-success fs-6" th:text="${#lists.size(equipos)} + ' Equipos'">0 Teams</span>
+                </div>
+
+                <div th:if="${#lists.isEmpty(equipos)}"
+                    class="alert alert-warning border-0 shadow-sm rounded-3 py-4 text-center">
+                    <i class="fa-solid fa-circle-exclamation fs-3 text-warning mb-2 d-block"></i>
+                    <h5 class="fw-bold">There are no teams in this league yet.</h5>
+                    <p class="text-muted mb-0">Use the "Create Team" button in the left sidebar menu to add the first participant to the competition.</p>
+                </div>
+
+                <div th:unless="${#lists.isEmpty(equipos)}" class="d-flex flex-column gap-3">
+
+                    <div th:each="equipo : ${equipos}"
+                        class="d-flex align-items-center justify-content-between p-3 bg-white shadow-sm border-0"
+                        style="border-radius: 12px;">
+
+                        <div class="d-flex align-items-center gap-4">
+
+                            <div class="d-flex align-items-center justify-content-center bg-light"
+                                style="width: 60px; height: 60px; border: 1px solid #e2e8f0; overflow: hidden;">
+                                <img th:src="@{'/uploads/' + ${equipo.logo}}" alt="Escudo"
+                                    style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+
+                            <div>
+                                <h5 class="fw-bold text-dark m-0 mb-1" th:text="${equipo.name}">Club Name</h5>
+                                <span class="text-muted small"><i class="fa-solid fa-location-dot text-danger me-1"></i>
+                                    <span th:text="${equipo.stadium}">Stadium</span></span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <a th:href="@{/liga/{leagueId}/equipo/{teamId}(leagueId=${liga.id}, teamId=${equipo.id})}"
+                                class="btn btn-outline-success btn-sm px-4 fw-bold shadow-sm"
+                                style="border-radius: 8px;">
+                                <i class="fa-solid fa-eye me-1"></i> View team
+                            </a>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </main>
     </div>
 
     <div class="glass-overlay d-flex align-items-center justify-content-center">

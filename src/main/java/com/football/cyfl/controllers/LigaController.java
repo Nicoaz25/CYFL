@@ -142,7 +142,10 @@ public class LigaController {
             return "redirect:/home?error=no_tienes_permiso";
         }
 
+        List<Team> equipos = teamRepository.findByLeagueId(leagueId);
+
         model.addAttribute("liga", laLiga);
+        model.addAttribute("equipos", equipos);
         return "crearEquipo";
     }
 
