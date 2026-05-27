@@ -25,7 +25,11 @@
                     <div class="card-body p-5">
                         <h2 class="text-center mb-4 fw-bold">Welcome back</h2>
 
-                        <div th:if="${param.error}" class="alert alert-danger text-center">
+                        <div th:if="${param.error != null and param.error[0] == 'disabled'}" class="alert alert-warning text-center fw-bold">
+                            Your account has been deactivated. Contact an administrator.
+                        </div>
+
+                        <div th:if="${param.error != null and param.error[0] != 'disabled'}" class="alert alert-danger text-center">
                             Incorrect email or password.
                         </div>
 
@@ -35,7 +39,7 @@
 
                         <form action="/login" method="POST">
                             <div class="mb-3">
-                                <label class="form-label">Correo Electrónico</label>
+                                <label class="form-label">Email</label>
                                 <input type="email" name="username" class="form-control" required
                                     placeholder="tu@correo.com">
                             </div>

@@ -3,11 +3,14 @@ package com.football.cyfl.services;
 import com.football.cyfl.models.User;
 import com.football.cyfl.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -37,14 +40,17 @@ public class UserService implements UserDetailsService {
     // ====================================================================
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        // Buscamos el usuario por email en tu tabla de MySQL
         User usuario = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("No existe el usuario con email: " + email));
 
-        // Le "traducimos" tu usuario a Spring Security para que entienda su contraseña y su rol
-        return org.springframework.security.core.userdetails.User.withUsername(usuario.getEmail())
-                .password(usuario.getPassword())
-                .roles(usuario.getRole()) // GESTOR o ADMIN
-                .build();
+        return new org.springframework.security.core.userdetails.User(
+                usuario.getEmail(),
+                usuario.getPassword(),
+                usuario.getEnabled() == 1,
+                true,
+                true,
+                true,
+                new ArrayList<>(List.of(new SimpleGrantedAuthority("ROLE_" + usuario.getRole())))
+        );
     }
 }

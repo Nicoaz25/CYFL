@@ -57,6 +57,7 @@ public class LigaController {
 
         model.addAttribute("ligas", misLigas);
         model.addAttribute("emailUsuario", emailUsuario);
+        model.addAttribute("userRole", usuarioLogueado.getRole());
         return "home";
     }
 
