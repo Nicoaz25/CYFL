@@ -8,6 +8,7 @@ import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,6 +40,9 @@ public class LigaController {
 
     @Autowired
     private PlayerRepository playerRepository;
+
+    @Value("${app.upload.dir}")
+    private String uploadDir;
 
     @GetMapping("/home")
     public String mostrarHome(Model model, Principal principal) {
@@ -104,7 +108,7 @@ public class LigaController {
 
         if (!archivo.isEmpty()) {
             try {
-                String carpetaFotos = "src/main/resources/static/uploads/";
+                String carpetaFotos = uploadDir;
                 Path rutaDirectorio = Paths.get(carpetaFotos);
 
                 if (!Files.exists(rutaDirectorio)) {
@@ -168,7 +172,7 @@ public class LigaController {
         try {
             if (!file.isEmpty()) {
 
-                String carpetaFotos = "src/main/resources/static/uploads/";
+                String carpetaFotos = uploadDir;
                 Path rutaDirectorio = Paths.get(carpetaFotos);
 
                 if (!Files.exists(rutaDirectorio)) {
@@ -244,7 +248,7 @@ public class LigaController {
 
             if (!file.isEmpty()) {
 
-                String carpetaFotos = "src/main/resources/static/uploads/";
+                String carpetaFotos = uploadDir;
                 Path rutaDirectorio = Paths.get(carpetaFotos);
 
                 if (!Files.exists(rutaDirectorio)) {
@@ -448,7 +452,7 @@ public class LigaController {
                 try {
 
                     Path rutaJugador = Paths.get(
-                            "src/main/resources/static/uploads/"
+                            uploadDir
                                     + jugador.getLogo());
 
                     Files.deleteIfExists(rutaJugador);
@@ -470,7 +474,7 @@ public class LigaController {
             try {
 
                 Path rutaEquipo = Paths.get(
-                        "src/main/resources/static/uploads/"
+                        uploadDir
                                 + equipo.getLogo());
 
                 Files.deleteIfExists(rutaEquipo);
@@ -538,7 +542,7 @@ public class LigaController {
 
         if (!file.isEmpty()) {
 
-            String carpetaFotos = "src/main/resources/static/uploads/";
+            String carpetaFotos = uploadDir;
             Path rutaDirectorio = Paths.get(carpetaFotos);
 
             if (!Files.exists(rutaDirectorio)) {
@@ -575,7 +579,7 @@ public class LigaController {
             for (Player p : team.getPlayers()) {
                 if (p.getLogo() != null) {
                     try {
-                        Files.deleteIfExists(Paths.get("uploads", p.getLogo()));
+                        Files.deleteIfExists(Paths.get(uploadDir + p.getLogo()));
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
