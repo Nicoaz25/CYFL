@@ -2,24 +2,27 @@ services:
   db:
     image: mysql:8.0
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-root}
       MYSQL_DATABASE: ${DB_NAME:-CYFL}
     volumes:
       - mysql_data:/var/lib/mysql
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
       timeout: 20s
       retries: 10
+      start_period: 30s
     restart: unless-stopped
 
   app:
     build: .
+    ports:
+      - "8080:8080"
     environment:
       DB_HOST: db
       DB_PORT: 3306
       DB_NAME: ${DB_NAME:-CYFL}
       DB_USER: root
-      DB_PASSWORD: ${DB_PASSWORD}
+      DB_PASSWORD: ${DB_PASSWORD:-root}
       APP_UPLOAD_DIR: /app/uploads/
     volumes:
       - uploads_data:/app/uploads
