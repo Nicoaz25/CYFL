@@ -1,6 +1,6 @@
 server {
     listen 80;
-    server_name cyfl.yatat www.cyfl.yatat;
+    server_name cyfl.yatat.es;
 
     client_max_body_size 10M;
 

@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-DOMAIN="cyfl.yatat"
-DOMAINS="-d $DOMAIN -d www.$DOMAIN"
+DOMAIN="cyfl.yatat.es"
+DOMAINS="-d $DOMAIN"
 EMAIL="admin@$DOMAIN"
 
 echo "============================================"
@@ -24,7 +24,7 @@ sleep 5
 # 3. Solicitar certificados Let's Encrypt
 echo ""
 echo "[3/4] Solicitando certificados Let's Encrypt..."
-docker compose run --rm certbot certonly --webroot -w /var/www/html $DOMAINS \
+docker compose run --rm --entrypoint certbot certbot certonly --webroot -w /var/www/html $DOMAINS \
     --email $EMAIL --agree-tos --no-eff-email --non-interactive
 
 # 4. Restaurar config HTTPS y recargar nginx
