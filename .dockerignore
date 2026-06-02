@@ -5,3 +5,7 @@ target/
 .gitattributes
 mvnw.cmd
 .mvn/
+uploads/
+*.log
+.env
+nginx/
